@@ -1,0 +1,213 @@
+// ============================================================================
+// Solana Validator Memory Inspector - Type Definitions
+// ============================================================================
+
+// Memory Region Types - Maps portfolio sections to memory segments
+export interface MemoryRegion {
+  name: string
+  segment: '.text' | '.data' | '.bss' | '.stack' | '.heap' | '.rodata'
+  baseAddr: string
+  size: string
+  perms: 'r--' | 'rw-' | 'r-x' | 'rwx'
+  checksum: string
+  description: string
+}
+
+// RPC Trace Event - Simulated JSON-RPC calls
+export interface RpcTraceEvent {
+  id: string
+  ts: number
+  method: string
+  paramsSummary: string
+  correlationId?: string
+  duration?: number
+  status: 'pending' | 'success' | 'error'
+}
+
+// Kernel Log Event - Low-level system logs
+export interface KernelLogEvent {
+  id: string
+  ts: number
+  level: 'debug' | 'info' | 'warn' | 'error' | 'trace'
+  source: 'mem' | 'alloc' | 'dealloc' | 'inspect' | 'syscall' | 'validator'
+  msg: string
+}
+
+// Cluster State - Solana validator state simulation
+export interface ClusterState {
+  epoch: number
+  slot: number
+  blockHeight: number
+  root: number
+  confirmedSlot: number
+  finalizedSlot: number
+  leader: string
+  skippedSlots: number
+  transactionCount: number
+  tps: number
+  health: 'healthy' | 'behind' | 'delinquent'
+}
+
+// TPU Pipeline Stage
+export interface TpuStage {
+  name: 'fetch' | 'sigverify' | 'banking' | 'broadcast'
+  queueDepth: number
+  throughput: number // tx/s
+  status: 'active' | 'idle' | 'congested'
+}
+
+// TPU Pipeline State
+export interface TpuPipelineState {
+  fetch: TpuStage
+  sigverify: TpuStage
+  banking: TpuStage
+  broadcast: TpuStage
+}
+
+// Tower / Consensus State
+export interface TowerState {
+  lastVoteSlot: number
+  towerHeight: number
+  lockoutDepth: number
+  forkChoiceId: string
+  stakeWeight: number // percentage
+  rootDistance: number
+}
+
+// DeFi Event Types
+export type DexType = 'raydium' | 'orca' | 'phoenix' | 'jupiter' | 'meteora'
+export type SwapType = 'swap' | 'add_liquidity' | 'remove_liquidity' | 'route'
+export type DefiFlag = 'large_impact' | 'arb_candidate' | 'sandwich_risk' | 'whale' | 'new_token'
+
+export interface DefiEvent {
+  id: string
+  ts: number
+  slot: number
+  dex: DexType
+  signature: string
+  type: SwapType
+  fields: {
+    tokenIn: string
+    tokenOut: string
+    amountIn: string
+    amountOut: string
+    priceImpact?: number
+    route?: string[]
+  }
+  flags: DefiFlag[]
+}
+
+// Validator Internal Stage References
+export type ValidatorStage = 
+  | 'gossip'
+  | 'tpu'
+  | 'sigverify'
+  | 'banking'
+  | 'accounts_db'
+  | 'replay'
+  | 'rpc'
+  | 'snapshot'
+  | 'ledger'
+
+// RPC Method Categories
+export type RpcMethodCategory = 
+  | 'slot_info'     // getSlot, getEpochInfo, getBlockHeight
+  | 'block_info'    // getBlock, getBlocks, getBlockTime
+  | 'account_info'  // getAccountInfo, getBalance, getProgramAccounts
+  | 'tx_info'       // getTransaction, getSignatureStatuses, getSignaturesForAddress
+  | 'subscription'  // accountSubscribe, programSubscribe, logsSubscribe
+  | 'node_info'     // getHealth, getVersion, getClusterNodes
+
+// Portfolio Item - Enhanced with Solana metaphors
+export interface PortfolioItem {
+  id: string
+  kind: 'project' | 'oss' | 'writeup'
+  title: string
+  description: string
+  tags: string[]
+  
+  // Memory mapping
+  memoryRegion: MemoryRegion
+  
+  // Solana relationships
+  relatedRpcMethods: string[]
+  relatedValidatorStages: ValidatorStage[]
+  relatedDefiConcepts?: string[]
+  
+  // Project-specific
+  stack?: string[]
+  metrics?: { label: string; value: string; simulated?: boolean }[]
+  architecture?: string
+  whatBuilt?: string
+  lessons?: string
+  links?: { github?: string; demo?: string; article?: string }
+  
+  // DeFi-specific (for relevant projects)
+  decodedInstruction?: {
+    program: string
+    name: string
+    accounts: { name: string; pubkey: string }[]
+    data: Record<string, unknown>
+  }
+}
+
+// Section Configuration
+export interface SectionConfig {
+  id: string
+  label: string
+  segment: string
+  memoryRegion: MemoryRegion
+}
+
+// Process / Thread simulation
+export interface ProcessThread {
+  id: string
+  name: string
+  status: 'running' | 'sleeping' | 'blocked' | 'zombie'
+  cpu: number
+  memory: string
+  description: string
+}
+
+// Global App State
+export interface AppState {
+  mode: 'recruiter' | 'ram'
+  activeSection: string
+  hoveredItem: string | null
+  selectedItem: PortfolioItem | null
+  inspectorOpen: boolean
+  
+  // Cluster simulation
+  cluster: ClusterState
+  tower: TowerState
+  tpuPipeline: TpuPipelineState
+  
+  // Logs
+  rpcTrace: RpcTraceEvent[]
+  kernelLogs: KernelLogEvent[]
+  defiEvents: DefiEvent[]
+  
+  // UI state
+  consoleTab: 'clock' | 'tpu' | 'tower' | 'rpc' | 'defi'
+  hexdumpGoToAddress: string | null
+  highlightedMemoryRange: { start: string; end: string } | null
+}
+
+// Action types for state management
+export type AppAction =
+  | { type: 'SET_MODE'; payload: 'recruiter' | 'ram' }
+  | { type: 'SET_ACTIVE_SECTION'; payload: string }
+  | { type: 'SET_HOVERED_ITEM'; payload: string | null }
+  | { type: 'SET_SELECTED_ITEM'; payload: PortfolioItem | null }
+  | { type: 'SET_INSPECTOR_OPEN'; payload: boolean }
+  | { type: 'UPDATE_CLUSTER'; payload: Partial<ClusterState> }
+  | { type: 'UPDATE_TOWER'; payload: Partial<TowerState> }
+  | { type: 'UPDATE_TPU'; payload: Partial<TpuPipelineState> }
+  | { type: 'ADD_RPC_TRACE'; payload: RpcTraceEvent }
+  | { type: 'ADD_KERNEL_LOG'; payload: KernelLogEvent }
+  | { type: 'ADD_DEFI_EVENT'; payload: DefiEvent }
+  | { type: 'CLEAR_LOGS' }
+  | { type: 'SET_CONSOLE_TAB'; payload: AppState['consoleTab'] }
+  | { type: 'HIGHLIGHT_MEMORY'; payload: { start: string; end: string } | null }
+  | { type: 'GOTO_ADDRESS'; payload: string | null }
+  | { type: 'TICK_SLOT' }
