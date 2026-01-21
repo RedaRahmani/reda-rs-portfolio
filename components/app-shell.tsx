@@ -45,7 +45,10 @@ export default function AppShell({
   const cloneRail = (rail: React.ReactNode, variant?: 'rail' | 'drawer') => {
     if (!rail) return null
     if (React.isValidElement(rail)) {
-      return React.cloneElement(rail as React.ReactElement<any>, variant ? { variant, ...rail.props } : rail.props)
+      const element = rail as React.ReactElement<Record<string, unknown>>
+      const props = element.props || {}
+
+      return React.cloneElement(element, variant ? { ...props, variant } : props)
     }
     return rail
   }
