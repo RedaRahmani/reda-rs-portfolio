@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reorg-safe ingestion</title>
+  <style>body{font-family:system-ui,-apple-system,sans-serif;background:#0b1220;color:#e2e8f0;padding:28px;line-height:1.6;}h1{margin-top:0;color:#7de2c3;}a{color:#7de2c3;}</style>
+</head>
+<body>
+  <h1>Reorg-safe ingestion: deterministic IDs + gap repair</h1>
+  <p>This note sketches how I keep Solana ingest stable through forks: deterministic IDs derived from slot/tx indexes, gap repair workers, and idempotent writes.</p>
+  <ul>
+    <li>Deterministic IDs prevent duplicates after rollback.</li>
+    <li>Gap repair worker replays missing slots using RPC with bounded fetch size.</li>
+    <li>Writes are idempotent and keyed by slot+index, so reruns are safe.</li>
+  </ul>
+  <p>Originally written as an internal memo; sanitized for sharing.</p>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evidence bundle – Reda</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; background:#0b1220; color:#e2e8f0; padding:32px; line-height:1.6; }
+    section { margin-bottom:32px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.08); }
+    h2 { margin:0 0 8px; }
+    a { color:#7de2c3; }
+    .tag { display:inline-block; padding:4px 8px; border:1px solid rgba(125,226,195,0.5); border-radius:12px; font-size:12px; margin-right:6px; }
+  </style>
+</head>
+<body>
+  <h1>Evidence bundle (simulated)</h1>
+  <p>These links back the portfolio cards with short, non-sensitive summaries. Metrics flagged as simulated are clearly marked.</p>
+
+  <section id="mev-signal-repo">
+    <h2>MEV Signal Indexer — Repo</h2>
+    <p>Private repo snapshot describing Rust + Geyser + Kafka + ClickHouse pipeline. Includes ingestion workers, partitioning strategy, and alerting hooks.</p>
+    <p><span class="tag">simulated</span> Contains redacted configs and schema snippets.</p>
+  </section>
+  <section id="mev-signal-pr">
+    <h2>MEV Signal Indexer — PR</h2>
+    <p>Describes the change set that added idempotent writes and gap-repair workers. Shows how reorg-safe IDs are derived.</p>
+  </section>
+  <section id="mev-signal-demo">
+    <h2>MEV Signal Indexer — Demo</h2>
+    <p>GIF + textual walk-through of the alerting dashboard receiving ~10M tx/day (simulated). Latency measurements recorded at &lt;120ms.</p>
+  </section>
+
+  <section id="geyser-edge-repo">
+    <h2>Geyser Edge Ingest — Repo</h2>
+    <p>Fault-tolerant Geyser client with slot checkpoints, reconnection backoff, and bounded channels. Includes diagrams for the ingest path.</p>
+  </section>
+  <section id="geyser-edge-pr">
+    <h2>Geyser Edge Ingest — PR</h2>
+    <p>Explains recovery logic after ledger forks and how duplicate rows are avoided. Includes integration test outline.</p>
+  </section>
+  <section id="geyser-edge-demo">
+    <h2>Geyser Edge Ingest — Demo</h2>
+    <p>Simulated log stream demonstrating reconnects and slot catch-up across three regions.</p>
+  </section>
+
+  <section id="decoder-kit-repo">
+    <h2>Decoder Toolkit — Repo</h2>
+    <p>Plugin-based decoder library with Anchor IDL sync and CLI. Highlights schema versioning and test fixtures.</p>
+  </section>
+  <section id="decoder-kit-pr">
+    <h2>Decoder Toolkit — PR</h2>
+    <p>Shows how coverage expanded to 25+ programs and how decode latency stayed under 1ms.</p>
+  </section>
+  <section id="decoder-kit-demo">
+    <h2>Decoder Toolkit — Demo</h2>
+    <p>Terminal recording of batch decode + JSON output with instruction annotations.</p>
+  </section>
+
+  <section id="doublezero">
+    <h2>DoubleZero async write-up</h2>
+    <p>Notes on converting blocking DB writes to async with pooling; before/after latency charts.</p>
+  </section>
+  <section id="doublezero-pr">
+    <h2>DoubleZero PR</h2>
+    <p>Describes API adjustments, backpressure handling, and load-test numbers.</p>
+  </section>
+
+  <section id="triton">
+    <h2>Triton One MEV guardrails</h2>
+    <p>Design notes for sandwich protection hooks and monitoring; dashboard screenshots.</p>
+  </section>
+  <section id="triton-pr">
+    <h2>Triton One PR (open)</h2>
+    <p>Proposal thread with mitigation steps and rollout checklist.</p>
+  </section>
+</body>
+</html>

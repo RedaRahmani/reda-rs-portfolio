@@ -4,13 +4,21 @@ import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist" })
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" })
 
 export const metadata: Metadata = {
-  title: "Reda – Rust + Solana Engineer",
-  description: "Building Solana infra: indexers, decoders, Geyser pipelines, performance tooling.",
+  title: "Reda – Solana Infra Engineer (Rust)",
+  description: "Solana infra engineer focused on indexers, decoders, Geyser pipelines, and RPC tooling.",
   generator: "v0.app",
+  openGraph: {
+    title: "Reda – Solana Infra Engineer (Rust)",
+    description: "Indexers, decoders, Geyser pipelines, and RPC tooling built for operators.",
+    url: "https://reda.rs/",
+    siteName: "reda.rs",
+    locale: "en_US",
+    type: "website",
+  },
   icons: {
     icon: [
       {
@@ -36,8 +44,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>
+    <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
+      <body className="font-sans antialiased bg-[#030712] text-slate-100 min-h-screen">
         {children}
         <Analytics />
       </body>

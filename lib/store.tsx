@@ -12,6 +12,7 @@ import type {
   DefiEvent,
   DexType,
   DefiFlag,
+  ActivityEvent,
 } from './types'
 
 // Initial cluster state - simulates a Solana validator
@@ -46,8 +47,7 @@ const initialTpuPipeline: TpuPipelineState = {
 }
 
 const initialState: AppState = {
-  mode: 'ram',
-  activeSection: 'about',
+  activeSection: 'projects',
   hoveredItem: null,
   selectedItem: null,
   inspectorOpen: false,
@@ -57,6 +57,7 @@ const initialState: AppState = {
   rpcTrace: [],
   kernelLogs: [],
   defiEvents: [],
+  activity: [],
   consoleTab: 'clock',
   hexdumpGoToAddress: null,
   highlightedMemoryRange: null,
@@ -64,8 +65,6 @@ const initialState: AppState = {
 
 function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
-    case 'SET_MODE':
-      return { ...state, mode: action.payload }
     case 'SET_ACTIVE_SECTION':
       return { ...state, activeSection: action.payload }
     case 'SET_HOVERED_ITEM':
@@ -94,6 +93,11 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return {
         ...state,
         defiEvents: [action.payload, ...state.defiEvents].slice(0, 50),
+      }
+    case 'ADD_ACTIVITY':
+      return {
+        ...state,
+        activity: [action.payload, ...state.activity].slice(0, 80),
       }
     case 'CLEAR_LOGS':
       return { ...state, rpcTrace: [], kernelLogs: [], defiEvents: [] }
@@ -141,6 +145,7 @@ interface AppContextType {
   addDefiEvent: (dex: DexType, type: DefiEvent['type'], fields: DefiEvent['fields'], flags?: DefiFlag[]) => void
   highlightMemory: (start: string, end: string) => void
   clearHighlight: () => void
+  addActivity: (kind: ActivityEvent['kind'], message: string) => void
 }
 
 const AppContext = createContext<AppContextType | null>(null)
@@ -149,89 +154,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, initialState)
   const idCounterRef = useRef(0)
 
-  // Slot tick simulation
-  useEffect(() => {
-    if (state.mode !== 'ram') return
-
-    const interval = setInterval(() => {
-      dispatch({ type: 'TICK_SLOT' })
-    }, 400) // ~400ms slot time (slightly faster for visual effect)
-
-    return () => clearInterval(interval)
-  }, [state.mode])
-
-  // Random TPU queue updates
-  useEffect(() => {
-    if (state.mode !== 'ram') return
-
-    const interval = setInterval(() => {
-      dispatch({
-        type: 'UPDATE_TPU',
-        payload: {
-          fetch: {
-            ...state.tpuPipeline.fetch,
-            queueDepth: Math.floor(100 + Math.random() * 100),
-            throughput: Math.floor(3800 + Math.random() * 800),
-          },
-          sigverify: {
-            ...state.tpuPipeline.sigverify,
-            queueDepth: Math.floor(50 + Math.random() * 80),
-            throughput: Math.floor(3600 + Math.random() * 800),
-          },
-          banking: {
-            ...state.tpuPipeline.banking,
-            queueDepth: Math.floor(30 + Math.random() * 50),
-            throughput: Math.floor(3200 + Math.random() * 800),
-          },
-          broadcast: {
-            ...state.tpuPipeline.broadcast,
-            queueDepth: Math.floor(10 + Math.random() * 30),
-            throughput: Math.floor(3000 + Math.random() * 800),
-          },
-        },
-      })
-    }, 2000)
-
-    return () => clearInterval(interval)
-  }, [state.mode, state.tpuPipeline])
-
-  // Random DeFi events
-  useEffect(() => {
-    if (state.mode !== 'ram') return
-
-    const dexes: DexType[] = ['raydium', 'orca', 'phoenix', 'jupiter', 'meteora']
-    const tokens = ['SOL', 'USDC', 'USDT', 'JUP', 'RAY', 'ORCA', 'BONK', 'WIF', 'JTO']
-    const flags: DefiFlag[] = ['large_impact', 'arb_candidate', 'sandwich_risk', 'whale', 'new_token']
-
-    const interval = setInterval(() => {
-      const tokenIn = tokens[Math.floor(Math.random() * tokens.length)]
-      let tokenOut = tokens[Math.floor(Math.random() * tokens.length)]
-      while (tokenOut === tokenIn) {
-        tokenOut = tokens[Math.floor(Math.random() * tokens.length)]
-      }
-      
-      const amount = Math.floor(Math.random() * 10000) + 100
-      const eventFlags: DefiFlag[] = Math.random() > 0.7 
-        ? [flags[Math.floor(Math.random() * flags.length)]] 
-        : []
-
-      addDefiEvent(
-        dexes[Math.floor(Math.random() * dexes.length)],
-        'swap',
-        {
-          tokenIn,
-          tokenOut,
-          amountIn: amount.toString(),
-          amountOut: (amount * (0.95 + Math.random() * 0.1)).toFixed(2),
-          priceImpact: Math.random() * 2,
-        },
-        eventFlags
-      )
-    }, 3000)
-
-    return () => clearInterval(interval)
-  }, [state.mode, state.cluster.slot])
-
+  // Helper callbacks defined up front for use in effects
   const addRpcTrace = useCallback((method: string, params?: string) => {
     const event: RpcTraceEvent = {
       id: `rpc-${++idCounterRef.current}`,
@@ -278,6 +201,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'ADD_DEFI_EVENT', payload: event })
   }, [state.cluster.slot])
 
+  const addActivity = useCallback((kind: ActivityEvent['kind'], message: string) => {
+    const event: ActivityEvent = {
+      id: `act-${++idCounterRef.current}`,
+      ts: Date.now(),
+      kind,
+      message,
+    }
+    dispatch({ type: 'ADD_ACTIVITY', payload: event })
+  }, [])
+
   const highlightMemory = useCallback((start: string, end: string) => {
     dispatch({ type: 'HIGHLIGHT_MEMORY', payload: { start, end } })
   }, [])
@@ -285,6 +218,83 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const clearHighlight = useCallback(() => {
     dispatch({ type: 'HIGHLIGHT_MEMORY', payload: null })
   }, [])
+
+  // Slot tick simulation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch({ type: 'TICK_SLOT' })
+    }, 400) // ~400ms slot time (slightly faster for visual effect)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  // Random TPU queue updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch({
+        type: 'UPDATE_TPU',
+        payload: {
+          fetch: {
+            ...state.tpuPipeline.fetch,
+            queueDepth: Math.floor(100 + Math.random() * 100),
+            throughput: Math.floor(3800 + Math.random() * 800),
+          },
+          sigverify: {
+            ...state.tpuPipeline.sigverify,
+            queueDepth: Math.floor(50 + Math.random() * 80),
+            throughput: Math.floor(3600 + Math.random() * 800),
+          },
+          banking: {
+            ...state.tpuPipeline.banking,
+            queueDepth: Math.floor(30 + Math.random() * 50),
+            throughput: Math.floor(3200 + Math.random() * 800),
+          },
+          broadcast: {
+            ...state.tpuPipeline.broadcast,
+            queueDepth: Math.floor(10 + Math.random() * 30),
+            throughput: Math.floor(3000 + Math.random() * 800),
+          },
+        },
+      })
+    }, 2000)
+
+    return () => clearInterval(interval)
+  }, [state.tpuPipeline])
+
+  // Random DeFi events
+  useEffect(() => {
+    const dexes: DexType[] = ['raydium', 'orca', 'phoenix', 'jupiter', 'meteora']
+    const tokens = ['SOL', 'USDC', 'USDT', 'JUP', 'RAY', 'ORCA', 'BONK', 'WIF', 'JTO']
+    const flags: DefiFlag[] = ['large_impact', 'arb_candidate', 'sandwich_risk', 'whale', 'new_token']
+
+    const interval = setInterval(() => {
+      const tokenIn = tokens[Math.floor(Math.random() * tokens.length)]
+      let tokenOut = tokens[Math.floor(Math.random() * tokens.length)]
+      while (tokenOut === tokenIn) {
+        tokenOut = tokens[Math.floor(Math.random() * tokens.length)]
+      }
+      
+      const amount = Math.floor(Math.random() * 10000) + 100
+      const eventFlags: DefiFlag[] = Math.random() > 0.7 
+        ? [flags[Math.floor(Math.random() * flags.length)]] 
+        : []
+
+      addDefiEvent(
+        dexes[Math.floor(Math.random() * dexes.length)],
+        'swap',
+        {
+          tokenIn,
+          tokenOut,
+          amountIn: amount.toString(),
+          amountOut: (amount * (0.95 + Math.random() * 0.1)).toFixed(2),
+          priceImpact: Math.random() * 2,
+        },
+        eventFlags
+      )
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [state.cluster.slot, addDefiEvent])
 
   return (
     <AppContext.Provider
@@ -294,6 +304,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         addRpcTrace,
         addKernelLog,
         addDefiEvent,
+        addActivity,
         highlightMemory,
         clearHighlight,
       }}
@@ -309,12 +320,6 @@ export function useApp() {
     throw new Error('useApp must be used within an AppProvider')
   }
   return context
-}
-
-// Selector hooks for performance
-export function useMode() {
-  const { state } = useApp()
-  return state.mode
 }
 
 export function useCluster() {

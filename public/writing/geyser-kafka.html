@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geyser → Kafka → ClickHouse notes</title>
+  <style>body{font-family:system-ui,-apple-system,sans-serif;background:#0b1220;color:#e2e8f0;padding:28px;line-height:1.6;}h1{margin-top:0;color:#7de2c3;}a{color:#7de2c3;}</style>
+</head>
+<body>
+  <h1>Geyser → Kafka → ClickHouse: production notes</h1>
+  <p>Throughput tuning I’ve used in production pipelines:</p>
+  <ol>
+    <li>Shard Kafka by slot to keep ordering guarantees.</li>
+    <li>Use bounded channels between gRPC stream handlers and producers.</li>
+    <li>Materialized views in ClickHouse for hot queries; aggregate tables for long-tail analytics.</li>
+    <li>Checkpointing by slot/root to recover quickly after reorgs.</li>
+  </ol>
+  <p>Includes flamegraph screenshots and config snippets.</p>
+</body>
+</html>

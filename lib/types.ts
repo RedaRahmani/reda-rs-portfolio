@@ -157,6 +157,7 @@ export interface SectionConfig {
   label: string
   segment: string
   memoryRegion: MemoryRegion
+  addressLabel?: string
 }
 
 // Process / Thread simulation
@@ -171,7 +172,6 @@ export interface ProcessThread {
 
 // Global App State
 export interface AppState {
-  mode: 'recruiter' | 'ram'
   activeSection: string
   hoveredItem: string | null
   selectedItem: PortfolioItem | null
@@ -186,6 +186,7 @@ export interface AppState {
   rpcTrace: RpcTraceEvent[]
   kernelLogs: KernelLogEvent[]
   defiEvents: DefiEvent[]
+  activity: ActivityEvent[]
   
   // UI state
   consoleTab: 'clock' | 'tpu' | 'tower' | 'rpc' | 'defi'
@@ -195,7 +196,6 @@ export interface AppState {
 
 // Action types for state management
 export type AppAction =
-  | { type: 'SET_MODE'; payload: 'recruiter' | 'ram' }
   | { type: 'SET_ACTIVE_SECTION'; payload: string }
   | { type: 'SET_HOVERED_ITEM'; payload: string | null }
   | { type: 'SET_SELECTED_ITEM'; payload: PortfolioItem | null }
@@ -206,8 +206,80 @@ export type AppAction =
   | { type: 'ADD_RPC_TRACE'; payload: RpcTraceEvent }
   | { type: 'ADD_KERNEL_LOG'; payload: KernelLogEvent }
   | { type: 'ADD_DEFI_EVENT'; payload: DefiEvent }
+  | { type: 'ADD_ACTIVITY'; payload: ActivityEvent }
   | { type: 'CLEAR_LOGS' }
   | { type: 'SET_CONSOLE_TAB'; payload: AppState['consoleTab'] }
   | { type: 'HIGHLIGHT_MEMORY'; payload: { start: string; end: string } | null }
   | { type: 'GOTO_ADDRESS'; payload: string | null }
   | { type: 'TICK_SLOT' }
+
+export interface SocialLink {
+  id: 'github' | 'linkedin' | 'resume' | 'email'
+  label: string
+  href: string
+}
+
+export interface ProofStat {
+  label: string
+  value: string
+  hint?: string
+}
+
+export interface ProjectEvidence {
+  repo: string
+  pr: string
+  demo: string
+  note?: string
+}
+
+export interface FeaturedProject {
+  id: string
+  title: string
+  problem: string
+  solution: string
+  tech: string[]
+  impact: string
+  evidence: ProjectEvidence
+  badge?: string
+}
+
+export interface OpenSourcePR {
+  id: string
+  project: string
+  summary: string
+  repo: string
+  pr: string
+  status: 'merged' | 'open' | 'draft'
+}
+
+export interface WritingEntry {
+  id: string
+  title: string
+  url: string
+  summary: string
+  topic: string
+  readingTime: string
+}
+
+export interface ClusterHudSnapshot {
+  network: 'mainnet' | 'devnet'
+  epochProgress: number
+  slot: number
+  tps: number
+  latencyMs: { p50: number; p95: number }
+  note?: string
+}
+
+export interface RpcHealthCheck {
+  method: string
+  latencyMs: number
+  status: 'ok' | 'warn' | 'error'
+  detail: string
+}
+
+export interface ActivityEvent {
+  id: string
+  ts: number
+  kind: 'nav' | 'mode' | 'action'
+  message: string
+}

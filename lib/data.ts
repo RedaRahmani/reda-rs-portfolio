@@ -1,16 +1,34 @@
-// ============================================================================
-// Solana Validator Memory Inspector - Portfolio Data
-// Maps real portfolio content to Solana/validator metaphors
-// ============================================================================
-
+import { posts, projects, openSourcePRs, proofStats, socialLinks } from '@/content/content'
 import type {
-  PortfolioItem,
   MemoryRegion,
   SectionConfig,
   ProcessThread,
+  ClusterHudSnapshot,
+  RpcHealthCheck,
 } from './types'
 
-// Memory Regions - Each portfolio section is a memory segment
+// Canonical content (kept here for backwards-compatible named exports)
+export const SOCIAL_LINKS = socialLinks
+export const PROOF_STATS = proofStats
+export const FEATURED_PROJECTS = projects
+export const OPEN_SOURCE_PRS = openSourcePRs
+export const WRITING = posts
+
+export const CLUSTER_HUD_BASE: ClusterHudSnapshot = {
+  network: 'mainnet',
+  epochProgress: 0.62,
+  slot: 280_000_000,
+  tps: 3200,
+  latencyMs: { p50: 22, p95: 68 },
+  note: 'Demo console (simulated)',
+}
+
+export const RPC_HEALTH_BASE: RpcHealthCheck[] = [
+  { method: 'getLatestBlockhash', latencyMs: 41, status: 'ok', detail: 'finalized' },
+  { method: 'getBlockHeight', latencyMs: 55, status: 'ok', detail: 'height synced' },
+  { method: 'getSignaturesForAddress', latencyMs: 132, status: 'warn', detail: 'cached, rate-limited' },
+]
+
 export const MEMORY_REGIONS: Record<string, MemoryRegion> = {
   hero: {
     name: 'BOOT',
@@ -21,15 +39,6 @@ export const MEMORY_REGIONS: Record<string, MemoryRegion> = {
     checksum: '0xB00T',
     description: 'Bootstrap and initialization',
   },
-  about: {
-    name: 'PROFILE',
-    segment: '.rodata',
-    baseAddr: '0x0000_0800',
-    size: '0x0000_0800',
-    perms: 'r--',
-    checksum: '0xAB0T',
-    description: 'Profile metadata and capabilities',
-  },
   projects: {
     name: 'PROJECTS',
     segment: '.text',
@@ -37,34 +46,34 @@ export const MEMORY_REGIONS: Record<string, MemoryRegion> = {
     size: '0x0000_3000',
     perms: 'r-x',
     checksum: '0xPROJ',
-    description: 'Executable project implementations',
+    description: 'Featured work',
   },
   'open-source': {
-    name: 'OSS_CONTRIB',
+    name: 'OSS',
     segment: '.data',
     baseAddr: '0x0000_4000',
     size: '0x0000_1000',
     perms: 'rw-',
     checksum: '0x0SS0',
-    description: 'Open source contributions and PRs',
+    description: 'Open source contributions',
   },
-  writeups: {
-    name: 'WRITEUPS',
+  writing: {
+    name: 'WRITING',
     segment: '.stack',
     baseAddr: '0x0000_5000',
     size: '0x0000_1000',
     perms: 'rw-',
     checksum: '0xWR1T',
-    description: 'Technical documentation and articles',
+    description: 'Notes & posts',
   },
-  now: {
-    name: 'CURRENT',
-    segment: '.bss',
-    baseAddr: '0x0000_6000',
+  about: {
+    name: 'ABOUT',
+    segment: '.rodata',
+    baseAddr: '0x0000_0800',
     size: '0x0000_0800',
-    perms: 'rw-',
-    checksum: '0xN0W0',
-    description: 'Current focus and activities',
+    perms: 'r--',
+    checksum: '0xAB0T',
+    description: 'Profile metadata',
   },
   contact: {
     name: 'CONTACT',
@@ -77,412 +86,25 @@ export const MEMORY_REGIONS: Record<string, MemoryRegion> = {
   },
 }
 
-// Section navigation configuration
 export const SECTIONS: SectionConfig[] = [
-  { id: 'about', label: 'About', segment: '.rodata', memoryRegion: MEMORY_REGIONS.about },
-  { id: 'projects', label: 'Projects', segment: '.text', memoryRegion: MEMORY_REGIONS.projects },
-  { id: 'open-source', label: 'Open Source', segment: '.data', memoryRegion: MEMORY_REGIONS['open-source'] },
-  { id: 'writeups', label: 'Write-ups', segment: '.stack', memoryRegion: MEMORY_REGIONS.writeups },
-  { id: 'now', label: 'Now', segment: '.bss', memoryRegion: MEMORY_REGIONS.now },
-  { id: 'contact', label: 'Contact', segment: '.heap', memoryRegion: MEMORY_REGIONS.contact },
+  { id: 'projects', label: 'Projects', segment: '.text', memoryRegion: MEMORY_REGIONS.projects, addressLabel: '0x1000_PROJECTS' },
+  { id: 'open-source', label: 'Open Source', segment: '.data', memoryRegion: MEMORY_REGIONS['open-source'], addressLabel: '0x2000_OSS' },
+  { id: 'writing', label: 'Writing', segment: '.stack', memoryRegion: MEMORY_REGIONS.writing, addressLabel: '0x3000_WRITING' },
+  { id: 'about', label: 'About', segment: '.rodata', memoryRegion: MEMORY_REGIONS.about, addressLabel: '0x4000_ABOUT' },
+  { id: 'contact', label: 'Contact', segment: '.heap', memoryRegion: MEMORY_REGIONS.contact, addressLabel: '0x5000_CONTACT' },
 ]
 
-// Projects with full Solana metaphor mapping
-export const PROJECTS: PortfolioItem[] = [
-  {
-    id: 'proj-mev-indexer',
-    kind: 'project',
-    title: 'Solana DEX MEV Indexer',
-    description: 'Real-time MEV detection and analysis pipeline for Solana DEXs',
-    tags: ['Indexing', 'MEV', 'DeFi', 'Analytics'],
-    memoryRegion: {
-      name: 'mev_indexer',
-      segment: '.text',
-      baseAddr: '0x0000_1000',
-      size: '0x0000_0800',
-      perms: 'r-x',
-      checksum: '0xMEV1',
-      description: 'MEV detection pipeline',
-    },
-    relatedRpcMethods: [
-      'getBlock',
-      'getTransaction',
-      'getSignaturesForAddress',
-      'logsSubscribe',
-      'programSubscribe',
-    ],
-    relatedValidatorStages: ['replay', 'rpc', 'accounts_db'],
-    relatedDefiConcepts: ['sandwich_detection', 'arb_detection', 'price_impact'],
-    stack: ['Rust', 'Kafka', 'ClickHouse', 'Geyser'],
-    metrics: [
-      { label: 'Transactions indexed/day', value: '10M+', simulated: true },
-      { label: 'Detection latency', value: '<100ms', simulated: true },
-      { label: 'DEX coverage', value: '95%' },
-    ],
-    architecture: 'Multi-stage pipeline: Geyser → Kafka partitions → Rust consumers → ClickHouse materialized views. Handles reorgs via deterministic event IDs and gap repair workers.',
-    whatBuilt: 'Rust consumer service for Yellowstone Geyser, Kafka producer with partitioning by slot, ClickHouse schema optimization for time-series queries, MEV pattern detection algorithms.',
-    lessons: 'Learned importance of idempotent writes for reorg handling. Kafka partition strategy critical for ordering. ClickHouse materialized views vs. aggregating merge trees trade-offs.',
-    links: { github: '#' },
-    decodedInstruction: {
-      program: 'MEV_INDEXER',
-      name: 'process_block',
-      accounts: [
-        { name: 'block_data', pubkey: 'BLK...' },
-        { name: 'mev_output', pubkey: 'MEV...' },
-      ],
-      data: { slot: 'u64', transactions: 'Vec<Tx>' },
-    },
-  },
-  {
-    id: 'proj-geyser',
-    kind: 'project',
-    title: 'Yellowstone Geyser Ingestion',
-    description: 'High-throughput gRPC client with filtering and reorg handling',
-    tags: ['Geyser', 'Streaming', 'Infrastructure'],
-    memoryRegion: {
-      name: 'geyser_client',
-      segment: '.text',
-      baseAddr: '0x0000_1800',
-      size: '0x0000_0600',
-      perms: 'r-x',
-      checksum: '0xGEYS',
-      description: 'Geyser gRPC client',
-    },
-    relatedRpcMethods: [
-      'accountSubscribe',
-      'programSubscribe',
-      'slotSubscribe',
-      'blockSubscribe',
-    ],
-    relatedValidatorStages: ['gossip', 'replay', 'accounts_db'],
-    stack: ['Rust', 'gRPC', 'Protocol Buffers', 'Tokio'],
-    metrics: [
-      { label: 'Uptime', value: '99.9%', simulated: true },
-      { label: 'Regions', value: '3' },
-      { label: 'Throughput', value: '50K events/s', simulated: true },
-    ],
-    architecture: 'Async Rust client with tokio runtime. Subscription filters at source to reduce bandwidth. State checkpointing for recovery. Backpressure handling via bounded channels.',
-    whatBuilt: 'gRPC client with reconnection logic, account/transaction filters, reorg detection via slot/parent tracking, metrics exposition.',
-    lessons: 'Network partitions require careful state recovery. Bounded channels essential for backpressure. Filter optimization at source vs. client trade-offs.',
-    links: { github: '#' },
-  },
-  {
-    id: 'proj-decoder',
-    kind: 'project',
-    title: 'Tx Decoder Toolkit',
-    description: 'Parse and decode Solana transactions for major DEX programs',
-    tags: ['Decoder', 'DeFi', 'Tooling'],
-    memoryRegion: {
-      name: 'tx_decoder',
-      segment: '.text',
-      baseAddr: '0x0000_1E00',
-      size: '0x0000_0600',
-      perms: 'r-x',
-      checksum: '0xDEC0',
-      description: 'Transaction decoder',
-    },
-    relatedRpcMethods: [
-      'getTransaction',
-      'getAccountInfo',
-      'getProgramAccounts',
-    ],
-    relatedValidatorStages: ['rpc', 'accounts_db'],
-    relatedDefiConcepts: ['instruction_decoding', 'idl_parsing', 'schema_versioning'],
-    stack: ['Rust', 'Anchor', 'Borsh', 'Raydium/Orca/Phoenix'],
-    metrics: [
-      { label: 'Program coverage', value: '95%+' },
-      { label: 'Programs supported', value: '25+' },
-      { label: 'Decode latency', value: '<1ms' },
-    ],
-    architecture: 'Plugin system for program decoders. IDL auto-generation from Anchor. Versioned schema support for program upgrades. CLI and library interfaces.',
-    whatBuilt: 'Decoder implementations for Raydium, Orca, Phoenix, Jupiter. Anchor IDL automation. CLI tool for ad-hoc decoding.',
-    lessons: 'IDL parsing challenges with non-Anchor programs. Instruction encoding edge cases. Schema versioning for program upgrades.',
-    links: { github: '#' },
-    decodedInstruction: {
-      program: 'RAYDIUM_AMM',
-      name: 'swap',
-      accounts: [
-        { name: 'amm', pubkey: '5Q5...xyz' },
-        { name: 'user', pubkey: 'USR...abc' },
-        { name: 'pool_coin', pubkey: 'PCN...def' },
-        { name: 'pool_pc', pubkey: 'PPC...ghi' },
-      ],
-      data: { amount_in: '1000000', minimum_amount_out: '950000' },
-    },
-  },
-  {
-    id: 'proj-onchain',
-    kind: 'project',
-    title: 'On-chain Program Suite',
-    description: 'Anchor smart contracts with security audits',
-    tags: ['On-chain', 'Anchor', 'Smart Contracts'],
-    memoryRegion: {
-      name: 'onchain_progs',
-      segment: '.text',
-      baseAddr: '0x0000_2400',
-      size: '0x0000_0400',
-      perms: 'r-x',
-      checksum: '0x0NCH',
-      description: 'On-chain programs',
-    },
-    relatedRpcMethods: [
-      'sendTransaction',
-      'simulateTransaction',
-      'getAccountInfo',
-      'getProgramAccounts',
-    ],
-    relatedValidatorStages: ['banking', 'sigverify', 'accounts_db'],
-    stack: ['Anchor', 'Rust', 'Solana', 'SPL'],
-    metrics: [
-      { label: 'TVL managed', value: '5M SOL', simulated: true },
-      { label: 'Security audits', value: '2' },
-      { label: 'Test coverage', value: '95%' },
-    ],
-    architecture: 'Modular program design with PDA-based state. Granular permissions via access control patterns. Integration with SPL tokens.',
-    whatBuilt: 'Core protocol programs, comprehensive test suite, security review integration, upgrade mechanisms.',
-    lessons: 'PDA derivation patterns and seeds management. Compute unit optimization for complex logic. Account size planning.',
-    links: { github: '#' },
-  },
-  {
-    id: 'proj-perf',
-    kind: 'project',
-    title: 'Performance Tooling Suite',
-    description: 'CU analysis and hidden allocation detection',
-    tags: ['Performance', 'Profiling', 'Optimization'],
-    memoryRegion: {
-      name: 'perf_tools',
-      segment: '.text',
-      baseAddr: '0x0000_2800',
-      size: '0x0000_0300',
-      perms: 'r-x',
-      checksum: '0xPERF',
-      description: 'Performance analysis tools',
-    },
-    relatedRpcMethods: [
-      'simulateTransaction',
-      'getRecentPerformanceSamples',
-    ],
-    relatedValidatorStages: ['banking', 'replay'],
-    stack: ['Rust', 'Solana CLI', 'Log parsing', 'Flamegraph'],
-    metrics: [
-      { label: 'CU reduction achieved', value: '30%' },
-      { label: 'Clients helped', value: '12' },
-      { label: 'Patterns identified', value: '50+' },
-    ],
-    architecture: 'Log aggregation from simulation outputs. Statistical analysis of CU consumption. HTML report generation with flamegraph integration.',
-    whatBuilt: 'CU profiler CLI, allocation tracker, report generator, optimization recommendation engine.',
-    lessons: 'Log parsing at scale. Hidden allocations in Rust code. Memory layout impact on CU.',
-    links: { github: '#' },
-  },
-]
-
-// Open Source Contributions
-export const OSS_CONTRIBUTIONS: PortfolioItem[] = [
-  {
-    id: 'oss-yellowstone-filters',
-    kind: 'oss',
-    title: 'Yellowstone Geyser: Subscription Filters',
-    description: 'Add subscription filters for account updates',
-    tags: ['Geyser', 'Filters', 'Performance'],
-    memoryRegion: {
-      name: 'oss_yellowstone',
-      segment: '.data',
-      baseAddr: '0x0000_4000',
-      size: '0x0000_0400',
-      perms: 'rw-',
-      checksum: '0xYEL1',
-      description: 'Yellowstone contribution',
-    },
-    relatedRpcMethods: ['accountSubscribe', 'programSubscribe'],
-    relatedValidatorStages: ['accounts_db', 'replay'],
-    metrics: [
-      { label: 'Status', value: 'Merged' },
-      { label: 'Perf improvement', value: '40%' },
-    ],
-    whatBuilt: 'Implemented account owner filtering, subscription predicate logic, filter performance optimization.',
-    lessons: 'Clients can now filter updates without processing overhead.',
-    links: { github: '#' },
-  },
-  {
-    id: 'oss-doublezero-async',
-    kind: 'oss',
-    title: 'DoubleZero: Async Database Writes',
-    description: 'Implement async database writes for improved throughput',
-    tags: ['Async', 'Database', 'Performance'],
-    memoryRegion: {
-      name: 'oss_doublezero',
-      segment: '.data',
-      baseAddr: '0x0000_4400',
-      size: '0x0000_0400',
-      perms: 'rw-',
-      checksum: '0xDZ00',
-      description: 'DoubleZero contribution',
-    },
-    relatedRpcMethods: [],
-    relatedValidatorStages: ['accounts_db'],
-    metrics: [
-      { label: 'Status', value: 'Merged' },
-      { label: 'Latency reduction', value: '60%' },
-    ],
-    whatBuilt: 'Refactored sync I/O to async/await, added connection pooling, reduced latency by 60%.',
-    lessons: 'Unblocked high-throughput indexing pipelines.',
-    links: { github: '#' },
-  },
-  {
-    id: 'oss-triton-mev',
-    kind: 'oss',
-    title: 'Triton One: MEV Protection',
-    description: 'Add MEV protection mechanisms',
-    tags: ['MEV', 'Security', 'Protection'],
-    memoryRegion: {
-      name: 'oss_triton',
-      segment: '.data',
-      baseAddr: '0x0000_4800',
-      size: '0x0000_0400',
-      perms: 'rw-',
-      checksum: '0xTRI0',
-      description: 'Triton contribution',
-    },
-    relatedRpcMethods: ['sendTransaction'],
-    relatedValidatorStages: ['tpu', 'banking'],
-    relatedDefiConcepts: ['sandwich_protection', 'mev_mitigation'],
-    metrics: [{ label: 'Status', value: 'Open' }],
-    whatBuilt: 'Designed MEV mitigation strategy, implemented sandwich protection, added monitoring hooks.',
-    lessons: 'Protects users from value extraction.',
-    links: { github: '#' },
-  },
-]
-
-// Write-ups
-export const WRITEUPS: PortfolioItem[] = [
-  {
-    id: 'writeup-reorg',
-    kind: 'writeup',
-    title: 'Reorg-safe ingestion: deterministic IDs + gap repair',
-    description: 'How to handle ledger reorgs safely while maintaining data consistency',
-    tags: ['Indexing', 'Solana', 'Architecture'],
-    memoryRegion: {
-      name: 'writeup_reorg',
-      segment: '.stack',
-      baseAddr: '0x0000_5000',
-      size: '0x0000_0400',
-      perms: 'rw-',
-      checksum: '0xREOR',
-      description: 'Reorg handling writeup',
-    },
-    relatedRpcMethods: ['getBlock', 'getBlocks', 'getSlot'],
-    relatedValidatorStages: ['replay', 'ledger'],
-    metrics: [{ label: 'Read time', value: '8 min' }],
-    links: { article: '#' },
-  },
-  {
-    id: 'writeup-geyser-kafka',
-    kind: 'writeup',
-    title: 'Geyser → Kafka → ClickHouse: production notes',
-    description: 'End-to-end walkthrough of a high-throughput event streaming architecture',
-    tags: ['Streaming', 'Kafka', 'Data Pipeline'],
-    memoryRegion: {
-      name: 'writeup_kafka',
-      segment: '.stack',
-      baseAddr: '0x0000_5400',
-      size: '0x0000_0400',
-      perms: 'rw-',
-      checksum: '0xKAFK',
-      description: 'Kafka pipeline writeup',
-    },
-    relatedRpcMethods: ['blockSubscribe', 'slotSubscribe'],
-    relatedValidatorStages: ['replay', 'accounts_db'],
-    metrics: [{ label: 'Read time', value: '12 min' }],
-    links: { article: '#' },
-  },
-  {
-    id: 'writeup-cu',
-    kind: 'writeup',
-    title: 'Compute unit hotspots: hidden allocs in Rust',
-    description: 'Finding and eliminating surprising allocations that blow through CU budgets',
-    tags: ['Performance', 'Rust', 'Optimization'],
-    memoryRegion: {
-      name: 'writeup_cu',
-      segment: '.stack',
-      baseAddr: '0x0000_5800',
-      size: '0x0000_0400',
-      perms: 'rw-',
-      checksum: '0xCU00',
-      description: 'CU optimization writeup',
-    },
-    relatedRpcMethods: ['simulateTransaction'],
-    relatedValidatorStages: ['banking'],
-    metrics: [{ label: 'Read time', value: '6 min' }],
-    links: { article: '#' },
-  },
-  {
-    id: 'writeup-locks',
-    kind: 'writeup',
-    title: 'Account locks & parallelism: how throughput breaks',
-    description: 'Understanding account contention and its impact on validator throughput',
-    tags: ['Concurrency', 'SVM', 'Systems'],
-    memoryRegion: {
-      name: 'writeup_locks',
-      segment: '.stack',
-      baseAddr: '0x0000_5C00',
-      size: '0x0000_0400',
-      perms: 'rw-',
-      checksum: '0xL0CK',
-      description: 'Account locks writeup',
-    },
-    relatedRpcMethods: ['sendTransaction', 'simulateTransaction'],
-    relatedValidatorStages: ['banking', 'accounts_db'],
-    metrics: [{ label: 'Read time', value: '10 min' }],
-    links: { article: '#' },
-  },
-]
-
-// Process/Thread simulation
 export const PROCESSES: ProcessThread[] = [
   { id: 'proc-indexer', name: 'indexer_main', status: 'running', cpu: 45, memory: '1.2GB', description: 'Main indexer process' },
   { id: 'proc-geyser', name: 'geyser_client', status: 'running', cpu: 23, memory: '512MB', description: 'Geyser subscription client' },
   { id: 'proc-decoder', name: 'tx_decoder', status: 'sleeping', cpu: 2, memory: '128MB', description: 'Transaction decoder worker' },
-  { id: 'proc-kafka', name: 'kafka_producer', status: 'running', cpu: 15, memory: '256MB', description: 'Kafka producer thread' },
   { id: 'proc-mev', name: 'mev_detector', status: 'running', cpu: 38, memory: '768MB', description: 'MEV pattern detector' },
-  { id: 'proc-clickhouse', name: 'ch_writer', status: 'blocked', cpu: 0, memory: '64MB', description: 'ClickHouse batch writer' },
 ]
 
-// RPC Method definitions for trace generation
 export const RPC_METHODS = {
   getLatestBlockhash: { category: 'slot_info', sample: '{ commitment: "finalized" }' },
-  getSlot: { category: 'slot_info', sample: '{ commitment: "processed" }' },
-  getEpochInfo: { category: 'slot_info', sample: '{}' },
   getBlockHeight: { category: 'slot_info', sample: '{}' },
-  getBlock: { category: 'block_info', sample: '{ slot: 280000000, encoding: "jsonParsed" }' },
-  getBlocks: { category: 'block_info', sample: '{ startSlot: 280000000, endSlot: 280000100 }' },
-  getBlockTime: { category: 'block_info', sample: '{ slot: 280000000 }' },
-  getAccountInfo: { category: 'account_info', sample: '{ pubkey: "...", encoding: "base64" }' },
-  getBalance: { category: 'account_info', sample: '{ pubkey: "..." }' },
-  getProgramAccounts: { category: 'account_info', sample: '{ programId: "...", filters: [...] }' },
-  getTransaction: { category: 'tx_info', sample: '{ signature: "...", encoding: "jsonParsed" }' },
-  getSignatureStatuses: { category: 'tx_info', sample: '{ signatures: [...] }' },
   getSignaturesForAddress: { category: 'tx_info', sample: '{ address: "...", limit: 100 }' },
-  sendTransaction: { category: 'tx_info', sample: '{ transaction: "...", encoding: "base64" }' },
-  simulateTransaction: { category: 'tx_info', sample: '{ transaction: "...", sigVerify: false }' },
-  accountSubscribe: { category: 'subscription', sample: '{ pubkey: "...", commitment: "confirmed" }' },
-  programSubscribe: { category: 'subscription', sample: '{ programId: "...", filters: [...] }' },
-  logsSubscribe: { category: 'subscription', sample: '{ mentions: ["..."] }' },
-  slotSubscribe: { category: 'subscription', sample: '{}' },
-  blockSubscribe: { category: 'subscription', sample: '{ filter: "all" }' },
-  getHealth: { category: 'node_info', sample: '{}' },
-  getVersion: { category: 'node_info', sample: '{}' },
-  getClusterNodes: { category: 'node_info', sample: '{}' },
-  getRecentPerformanceSamples: { category: 'node_info', sample: '{ limit: 10 }' },
+  getTransaction: { category: 'tx_info', sample: '{ signature: "...", encoding: "jsonParsed" }' },
+  getProgramAccounts: { category: 'account_info', sample: '{ programId: "..." }' },
 } as const
-
-// Helper to get all items
-export const getAllItems = (): PortfolioItem[] => [
-  ...PROJECTS,
-  ...OSS_CONTRIBUTIONS,
-  ...WRITEUPS,
-]
-
-// Helper to get item by ID
-export const getItemById = (id: string): PortfolioItem | undefined => {
-  return getAllItems().find(item => item.id === id)
-}

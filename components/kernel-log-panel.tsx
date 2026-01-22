@@ -8,12 +8,10 @@ import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 
 export default function KernelLogPanel() {
-  const { state, dispatch } = useApp()
+  const { dispatch } = useApp()
   const kernelLogs = useKernelLogs()
   const [isExpanded, setIsExpanded] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
-
-  if (state.mode !== 'ram') return null
 
   const renderLogs = () => (
     <div className="p-2 max-h-64 overflow-y-auto font-mono text-xs space-y-0.5">

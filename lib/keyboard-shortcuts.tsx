@@ -5,12 +5,28 @@ import { useApp } from '@/lib/store'
 import { SECTIONS } from '@/lib/data'
 
 export function useKeyboardShortcuts() {
-  const { state, dispatch, addKernelLog } = useApp()
+  const { state, dispatch, addKernelLog, addActivity } = useApp()
+
+  const scrollToSection = useCallback((sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+      dispatch({ type: 'SET_ACTIVE_SECTION', payload: sectionId })
+    }
+  }, [dispatch])
+
+  const navigateSection = useCallback((direction: 1 | -1) => {
+    const currentIndex = SECTIONS.findIndex(s => s.id === state.activeSection)
+    const newIndex = Math.max(0, Math.min(SECTIONS.length - 1, currentIndex + direction))
+    const newSection = SECTIONS[newIndex]
+    
+    if (newSection && newSection.id !== state.activeSection) {
+      scrollToSection(newSection.id)
+      addKernelLog('debug', 'syscall', `kbd: navigate to ${newSection.label} (${direction > 0 ? 'j' : 'k'})`)
+    }
+  }, [state.activeSection, addKernelLog, scrollToSection])
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    // Only handle shortcuts in RAM mode
-    if (state.mode !== 'ram') return
-
     // Don't handle if user is typing in an input
     if (
       e.target instanceof HTMLInputElement ||
@@ -31,7 +47,6 @@ export function useKeyboardShortcuts() {
         // Search
         e.preventDefault()
         addKernelLog('debug', 'syscall', 'kbd: search (/)')
-        // Could trigger a search modal here
         break
 
       case 'j':
@@ -55,16 +70,6 @@ export function useKeyboardShortcuts() {
           addKernelLog('debug', 'syscall', 'kbd: close inspector (esc)')
         }
         dispatch({ type: 'HIGHLIGHT_MEMORY', payload: null })
-        break
-
-      case 'm':
-        // Toggle mode
-        if (e.ctrlKey || e.metaKey) {
-          e.preventDefault()
-          const newMode = state.mode === 'ram' ? 'recruiter' : 'ram'
-          dispatch({ type: 'SET_MODE', payload: newMode })
-          addKernelLog('info', 'syscall', `kbd: mode changed to ${newMode}`)
-        }
         break
 
       case '1':
@@ -106,26 +111,7 @@ export function useKeyboardShortcuts() {
         }
         break
     }
-  }, [state.mode, state.inspectorOpen, state.consoleTab, dispatch, addKernelLog])
-
-  const navigateSection = useCallback((direction: 1 | -1) => {
-    const currentIndex = SECTIONS.findIndex(s => s.id === state.activeSection)
-    const newIndex = Math.max(0, Math.min(SECTIONS.length - 1, currentIndex + direction))
-    const newSection = SECTIONS[newIndex]
-    
-    if (newSection && newSection.id !== state.activeSection) {
-      scrollToSection(newSection.id)
-      addKernelLog('debug', 'syscall', `kbd: navigate to ${newSection.label} (${direction > 0 ? 'j' : 'k'})`)
-    }
-  }, [state.activeSection, addKernelLog])
-
-  const scrollToSection = useCallback((sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-      dispatch({ type: 'SET_ACTIVE_SECTION', payload: sectionId })
-    }
-  }, [dispatch])
+  }, [state.inspectorOpen, state.consoleTab, dispatch, addKernelLog, navigateSection, scrollToSection])
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown)
@@ -134,29 +120,23 @@ export function useKeyboardShortcuts() {
 }
 
 // Keyboard shortcuts help component
-export function KeyboardShortcutsHelp({ isRamMode }: { isRamMode: boolean }) {
-  if (!isRamMode) return null
-
+export function KeyboardShortcutsHelp() {
   const shortcuts = [
     { key: 'j / k', desc: 'Navigate sections' },
     { key: 'g', desc: 'Go to address' },
-    { key: '/', desc: 'Search' },
     { key: 'Esc', desc: 'Close / clear' },
-    { key: 'Alt+1-6', desc: 'Jump to section' },
-    { key: 'Alt+t', desc: 'Cycle console tabs' },
-    { key: 'Ctrl+c', desc: 'Clear logs' },
-    { key: 'Ctrl+m', desc: 'Toggle mode' },
+    { key: 'Alt+1-5', desc: 'Jump to section' },
   ]
 
   return (
-    <div className="fixed bottom-24 right-4 z-30 hidden xl:block">
-      <div className="bg-black/90 border border-green-500/20 rounded-lg p-3 font-mono text-[10px]">
-        <div className="text-green-500 font-bold mb-2">SHORTCUTS</div>
+    <div className="fixed bottom-24 right-4 z-30 hidden xl:block opacity-40 hover:opacity-100 transition-opacity duration-200">
+      <div className="bg-slate-950/80 border border-emerald-500/15 rounded-xl p-3 font-mono text-[10px] backdrop-blur-sm">
+        <div className="text-emerald-400 font-semibold mb-2 uppercase tracking-wider text-[9px]">Shortcuts</div>
         <div className="space-y-1">
           {shortcuts.map(({ key, desc }) => (
             <div key={key} className="flex justify-between gap-4">
-              <span className="text-green-400 bg-green-500/10 px-1 rounded">{key}</span>
-              <span className="text-gray-500">{desc}</span>
+              <span className="text-emerald-300/80 bg-emerald-500/10 px-1.5 py-0.5 rounded">{key}</span>
+              <span className="text-slate-500">{desc}</span>
             </div>
           ))}
         </div>

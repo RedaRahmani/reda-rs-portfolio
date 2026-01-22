@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compute unit hotspots</title>
+  <style>body{font-family:system-ui,-apple-system,sans-serif;background:#0b1220;color:#e2e8f0;padding:28px;line-height:1.6;}h1{margin-top:0;color:#7de2c3;}a{color:#7de2c3;}</style>
+</head>
+<body>
+  <h1>Compute unit hotspots: hidden allocations in Rust</h1>
+  <p>Notes from profiling on-chain programs:</p>
+  <ul>
+    <li>Look for hidden Vec growth inside iterators; pre-size buffers.</li>
+    <li>Avoid format! in hot paths; use preallocated byte buffers.</li>
+    <li>Measure with the CU profiler and stack samples; verify post-optimization CU burn.</li>
+  </ul>
+  <p>Excerpted from a longer workshop deck.</p>
+</body>
+</html>
