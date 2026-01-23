@@ -10,7 +10,7 @@ interface ShellProps {
 /**
  * Shell layout component for wide-screen awareness.
  * - On lg+: 2-column grid with sidebar rail (88px) + fluid main content
- * - Container widens progressively: lg=1200px, xl=1440px, 2xl=1600px
+ * - Container widens progressively up to 1600px
  * - On mobile/tablet: single column, sidebar hidden
  */
 export function Shell({ children, sidebar }: ShellProps) {
@@ -20,9 +20,9 @@ export function Shell({ children, sidebar }: ShellProps) {
       <div className="
         w-full mx-auto px-4 
         md:px-6 
-        lg:max-w-[1200px] lg:px-8
-        xl:max-w-[1440px]
-        2xl:max-w-[1600px]
+        lg:px-8
+        xl:px-10
+        max-w-[1600px]
       ">
         {/* Grid layout: sidebar + main content */}
         <div className="

@@ -4,16 +4,9 @@ import type { ReactNode } from 'react'
 import { FEATURED_PROJECTS } from '@/lib/data'
 import type { FeaturedProject } from '@/lib/types'
 import { Badge } from '@/components/ui/badge'
-import { ArrowUpRight, Github, Play, ArrowRight } from 'lucide-react'
+import { ArrowUpRight, Github, Play, ArrowRight, FileText, Globe } from 'lucide-react'
 import { useApp } from '@/lib/store'
 import { SECTIONS } from '@/lib/data'
-
-// I/O mapping for infra feel
-const IO_MAP: Record<string, string> = {
-  'mev-signal': 'Kafka → ClickHouse → Alerts',
-  'geyser-edge': 'Geyser → Decoder → DLQ',
-  'decoder-kit': 'RPC → Decode → Metrics',
-}
 
 export default function ProjectsSection() {
   const { addActivity } = useApp()
@@ -36,8 +29,7 @@ export default function ProjectsSection() {
           Featured Projects
         </h2>
         <p className="text-slate-400 max-w-2xl">
-          Each module shows: problem → solution → tech → evidence → impact. 
-          Demos marked as simulated when applicable.
+          Each module shows: problem → what I built → tech → evidence → impact.
         </p>
       </div>
 
@@ -47,7 +39,6 @@ export default function ProjectsSection() {
           <ProjectCard
             key={project.id}
             project={project}
-            io={IO_MAP[project.id]}
             delay={idx * 0.05}
             onVisit={onVisit}
           />
@@ -59,16 +50,18 @@ export default function ProjectsSection() {
 
 function ProjectCard({
   project,
-  io,
   onVisit,
+  delay,
 }: {
   project: FeaturedProject
-  io?: string
   delay: number
   onVisit: (project: FeaturedProject, target: string) => void
 }) {
   return (
-    <article className="section-card p-5 md:p-6 flex flex-col gap-4 group h-full w-full">
+    <article
+      className="section-card p-5 md:p-6 flex flex-col gap-4 group h-full w-full"
+      style={{ animationDelay: `${delay}s` }}
+    >
       {/* Header */}
       <div className="flex items-start justify-between gap-2">
         <div>
@@ -87,10 +80,10 @@ function ProjectCard({
       </div>
 
       {/* I/O line - infra feel */}
-      {io && (
+      {project.io && (
         <div className="flex items-center gap-2 text-xs font-mono text-slate-500 bg-slate-900/50 rounded-md px-3 py-1.5 border border-slate-800">
           <span className="text-emerald-400">I/O:</span>
-          {io}
+          {project.io}
         </div>
       )}
 
@@ -102,7 +95,7 @@ function ProjectCard({
         </div>
         <div>
           <p className="text-xs uppercase tracking-wide text-emerald-400/80 font-medium mb-1.5">What I built</p>
-          <p className="text-sm text-slate-200 leading-relaxed">{project.solution}</p>
+          <p className="text-sm text-slate-200 leading-relaxed">{project.whatBuilt}</p>
         </div>
       </div>
 
@@ -133,18 +126,38 @@ function ProjectCard({
           icon={<Github className="w-3.5 h-3.5" />}
           onClick={() => onVisit(project, 'repo')}
         />
-        <LinkPill
-          href={project.evidence.pr}
-          label="PR"
-          icon={<ArrowUpRight className="w-3.5 h-3.5" />}
-          onClick={() => onVisit(project, 'PR')}
-        />
-        <LinkPill
-          href={project.evidence.demo}
-          label="Demo"
-          icon={<Play className="w-3.5 h-3.5" />}
-          onClick={() => onVisit(project, 'demo')}
-        />
+        {project.evidence.article && (
+          <LinkPill
+            href={project.evidence.article}
+            label="Article"
+            icon={<FileText className="w-3.5 h-3.5" />}
+            onClick={() => onVisit(project, 'article')}
+          />
+        )}
+        {project.evidence.docs && (
+          <LinkPill
+            href={project.evidence.docs}
+            label="Docs"
+            icon={<FileText className="w-3.5 h-3.5" />}
+            onClick={() => onVisit(project, 'docs')}
+          />
+        )}
+        {project.evidence.demo && (
+          <LinkPill
+            href={project.evidence.demo}
+            label="Demo"
+            icon={<Play className="w-3.5 h-3.5" />}
+            onClick={() => onVisit(project, 'demo')}
+          />
+        )}
+        {project.evidence.website && (
+          <LinkPill
+            href={project.evidence.website}
+            label="Website"
+            icon={<Globe className="w-3.5 h-3.5" />}
+            onClick={() => onVisit(project, 'website')}
+          />
+        )}
       </div>
     </article>
   )

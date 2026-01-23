@@ -1,4 +1,17 @@
-import { posts, projects, openSourcePRs, proofStats, socialLinks } from '@/content/content'
+import {
+  profile,
+  skills,
+  projects,
+  openSourceOrgs,
+  proofStats,
+  socialLinks,
+  writing,
+  experience,
+  education,
+  keyAchievements,
+  aboutHighlights,
+  certificates,
+} from '@/content/content'
 import type {
   MemoryRegion,
   SectionConfig,
@@ -11,8 +24,15 @@ import type {
 export const SOCIAL_LINKS = socialLinks
 export const PROOF_STATS = proofStats
 export const FEATURED_PROJECTS = projects
-export const OPEN_SOURCE_PRS = openSourcePRs
-export const WRITING = posts
+export const OPEN_SOURCE_ORGS = openSourceOrgs
+export const WRITING = writing
+export const PROFILE = profile
+export const SKILLS = skills
+export const EXPERIENCE = experience
+export const EDUCATION = education
+export const KEY_ACHIEVEMENTS = keyAchievements
+export const ABOUT_HIGHLIGHTS = aboutHighlights
+export const CERTIFICATES = certificates
 
 export const CLUSTER_HUD_BASE: ClusterHudSnapshot = {
   network: 'mainnet',
@@ -84,12 +104,42 @@ export const MEMORY_REGIONS: Record<string, MemoryRegion> = {
     checksum: '0xC0NT',
     description: 'Communication endpoints',
   },
+  experience: {
+    name: 'RUNLOG',
+    segment: '.bss',
+    baseAddr: '0x0000_5400',
+    size: '0x0000_0800',
+    perms: 'rw-',
+    checksum: '0xRUN0',
+    description: 'Deployment history',
+  },
+  education: {
+    name: 'COHORTS',
+    segment: '.data',
+    baseAddr: '0x0000_5C00',
+    size: '0x0000_0800',
+    perms: 'rw-',
+    checksum: '0xC0H0',
+    description: 'Education & cohorts',
+  },
+  certificates: {
+    name: 'CERTS',
+    segment: '.rodata',
+    baseAddr: '0x0000_6400',
+    size: '0x0000_0400',
+    perms: 'r--',
+    checksum: '0xC3RT',
+    description: 'Signed attestations',
+  },
 }
 
 export const SECTIONS: SectionConfig[] = [
   { id: 'projects', label: 'Projects', segment: '.text', memoryRegion: MEMORY_REGIONS.projects, addressLabel: '0x1000_PROJECTS' },
   { id: 'open-source', label: 'Open Source', segment: '.data', memoryRegion: MEMORY_REGIONS['open-source'], addressLabel: '0x2000_OSS' },
   { id: 'writing', label: 'Writing', segment: '.stack', memoryRegion: MEMORY_REGIONS.writing, addressLabel: '0x3000_WRITING' },
+  { id: 'experience', label: 'Experience', segment: '.bss', memoryRegion: MEMORY_REGIONS.experience, addressLabel: '0x3500_RUNLOG' },
+  { id: 'education', label: 'Education', segment: '.data', memoryRegion: MEMORY_REGIONS.education, addressLabel: '0x3800_EDU' },
+  { id: 'certificates', label: 'Certificates', segment: '.rodata', memoryRegion: MEMORY_REGIONS.certificates, addressLabel: '0x3C00_CERTS' },
   { id: 'about', label: 'About', segment: '.rodata', memoryRegion: MEMORY_REGIONS.about, addressLabel: '0x4000_ABOUT' },
   { id: 'contact', label: 'Contact', segment: '.heap', memoryRegion: MEMORY_REGIONS.contact, addressLabel: '0x5000_CONTACT' },
 ]

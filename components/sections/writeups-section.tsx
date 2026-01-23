@@ -1,7 +1,7 @@
 'use client'
 
 import { WRITING } from '@/lib/data'
-import { ArrowUpRight, BookOpen } from 'lucide-react'
+import { ArrowUpRight, BookOpen, Calendar } from 'lucide-react'
 import { useApp } from '@/lib/store'
 import { SECTIONS } from '@/lib/data'
 
@@ -22,7 +22,7 @@ export default function WriteupsSection() {
           Technical Writing
         </h2>
         <p className="text-slate-400 max-w-2xl">
-          Notes I share with teams on Solana indexing patterns and performance.
+          Verified long-form writing on Solana performance, SVM, and transaction flows.
         </p>
       </div>
 
@@ -53,7 +53,10 @@ export default function WriteupsSection() {
 
             {/* Footer */}
             <div className="flex items-center justify-between pt-2 border-t border-slate-800">
-              <span className="text-xs text-slate-500">{post.readingTime}</span>
+              <span className="text-xs text-slate-500 flex items-center gap-1">
+                <Calendar className="w-3.5 h-3.5" />
+                {post.date ?? 'Published'}
+              </span>
               <a
                 href={post.url}
                 target={post.url.startsWith('http') ? '_blank' : undefined}

@@ -1,14 +1,12 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { ArrowRight, FileDown, MapPin, Github, Linkedin, Mail, GitPullRequest, FolderKanban, FileText } from 'lucide-react'
+import { ArrowRight, FileDown, MapPin, Github, Linkedin, Mail, GitPullRequest, FolderKanban, FileText, Twitter } from 'lucide-react'
 import { useApp } from '@/lib/store'
-import { SOCIAL_LINKS, OPEN_SOURCE_PRS, FEATURED_PROJECTS, WRITING } from '@/lib/data'
+import { SOCIAL_LINKS, OPEN_SOURCE_ORGS, FEATURED_PROJECTS, WRITING, PROFILE, SKILLS } from '@/lib/data'
 import ClusterHUD from './operator/cluster-hud'
 import RpcHealthPanel from './operator/rpc-health-panel'
 import ValidatorPanel from './operator/validator-panel'
-
-const STACK = ['Rust', 'Solana', 'Geyser', 'Kafka', 'ClickHouse', 'Anchor', 'SVM']
 
 export default function HeroSection() {
   const { addActivity } = useApp()
@@ -16,6 +14,7 @@ export default function HeroSection() {
   const githubHref = SOCIAL_LINKS.find((l) => l.id === 'github')?.href ?? '#'
   const linkedinHref = SOCIAL_LINKS.find((l) => l.id === 'linkedin')?.href ?? '#'
   const emailHref = SOCIAL_LINKS.find((l) => l.id === 'email')?.href ?? '#'
+  const xHref = SOCIAL_LINKS.find((l) => l.id === 'x')?.href ?? '#'
 
   const scrollToProjects = () => {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
@@ -30,37 +29,44 @@ export default function HeroSection() {
         <span className="segment-label">.entry · init vector</span>
       </div>
 
-      <div className="grid lg:grid-cols-[1fr_minmax(320px,400px)] xl:grid-cols-[1fr_420px] 2xl:grid-cols-[1fr_480px] gap-8 lg:gap-10 xl:gap-12 items-start">
+      <div className="grid grid-cols-12 gap-6 lg:gap-8 xl:gap-10 items-start">
         {/* Left column - Identity */}
-        <div className="space-y-6">
+        <div className="col-span-12 lg:col-span-7 2xl:col-span-6 space-y-5">
           {/* Quick role tag */}
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-mono text-emerald-300">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse-subtle" />
-            Solana infra • Rust • Observability
+            {PROFILE.availability}
           </div>
 
-          {/* Main headline */}
-          <h1 className="text-3xl md:text-4xl lg:text-[2.75rem] font-semibold leading-tight text-white tracking-tight">
-            Solana infra engineer
-            <span className="text-emerald-400"> (Rust)</span>
-            <span className="block text-slate-300 mt-1 text-xl md:text-2xl font-normal">
-              Indexers · Decoders · Geyser pipelines · RPC tooling
-            </span>
-          </h1>
+          {/* Main headline - SVM Engineer as primary */}
+          <div className="space-y-2">
+            <h1 className="text-3xl md:text-4xl lg:text-[2.75rem] font-semibold leading-tight text-white tracking-tight">
+              <span className="text-emerald-400">{PROFILE.brand ?? 'reda.rs'}</span>
+              <span className="text-slate-400"> · </span>
+              {PROFILE.name}
+            </h1>
+            <p className="text-xl md:text-2xl text-white font-medium">
+              SVM Engineer <span className="text-slate-400">(Rust)</span>
+            </p>
+            <p className="text-base md:text-lg text-slate-400">
+              Smart Contract Engineer · Mastery: Anchor + Pinocchio
+            </p>
+            <p className="text-sm text-slate-500">
+              Bundlers · Indexers · Geyser pipelines · RPC tooling
+            </p>
+          </div>
 
           {/* Bio */}
-          <p className="text-lg text-slate-300 leading-relaxed max-w-xl">
-            I build validator-adjacent systems that stay stable through reorgs: 
-            ingestion, decoding, and observability that keep RPCs and data teams 
-            ahead of cluster churn.
+          <p className="text-base text-slate-300 leading-relaxed">
+            {PROFILE.tagline}
           </p>
 
           {/* Proof strip - derived counts */}
           <div className="flex flex-wrap items-center gap-4 text-sm border-l-2 border-emerald-500/30 pl-4 py-1">
             <div className="flex items-center gap-1.5 text-slate-300">
               <GitPullRequest className="w-4 h-4 text-emerald-400" />
-              <span className="font-semibold text-white">{OPEN_SOURCE_PRS.length}</span>
-              <span className="text-slate-500">merged PRs</span>
+              <span className="font-semibold text-white">{OPEN_SOURCE_ORGS.length}</span>
+              <span className="text-slate-500">OSS orgs</span>
             </div>
             <div className="flex items-center gap-1.5 text-slate-300">
               <FolderKanban className="w-4 h-4 text-emerald-400" />
@@ -70,7 +76,7 @@ export default function HeroSection() {
             <div className="flex items-center gap-1.5 text-slate-300">
               <FileText className="w-4 h-4 text-emerald-400" />
               <span className="font-semibold text-white">{WRITING.length}</span>
-              <span className="text-slate-500">write-ups</span>
+              <span className="text-slate-500">writing</span>
             </div>
           </div>
 
@@ -78,11 +84,11 @@ export default function HeroSection() {
           <div className="flex flex-wrap items-center gap-4 text-sm">
             <div className="flex items-center gap-2 text-slate-400">
               <MapPin className="w-4 h-4 text-emerald-400" />
-              <span>Morocco</span>
+              <span>{PROFILE.location}</span>
             </div>
             <div className="flex items-center gap-2 text-emerald-300">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
-              Open to Solana infra roles
+              {PROFILE.availability}
             </div>
           </div>
 
@@ -113,12 +119,13 @@ export default function HeroSection() {
           <div className="flex flex-wrap gap-2 pt-2">
             <ProofLink href={githubHref} icon={<Github className="w-4 h-4" />} label="GitHub" />
             <ProofLink href={linkedinHref} icon={<Linkedin className="w-4 h-4" />} label="LinkedIn" />
+            <ProofLink href={xHref} icon={<Twitter className="w-4 h-4" />} label="X" />
             <ProofLink href={emailHref} icon={<Mail className="w-4 h-4" />} label="Email" />
           </div>
 
           {/* Tech stack */}
           <div className="flex flex-wrap gap-2 pt-4">
-            {STACK.map((skill) => (
+            {SKILLS.map((skill) => (
               <span
                 key={skill}
                 className="rounded-md px-2.5 py-1 text-sm border border-emerald-500/20 text-emerald-100/90 bg-emerald-500/5 font-mono"
@@ -130,7 +137,7 @@ export default function HeroSection() {
         </div>
 
         {/* Right column - Operator panels */}
-        <div className="space-y-4 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+        <div className="col-span-12 lg:col-span-5 2xl:col-span-6 space-y-4 animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <ClusterHUD />
           <RpcHealthPanel />
           <ValidatorPanel />

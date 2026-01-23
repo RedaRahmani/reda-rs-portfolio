@@ -3,14 +3,15 @@
 import type { JSX } from 'react'
 import { useEffect, useState } from 'react'
 import { useApp } from '@/lib/store'
-import { SOCIAL_LINKS, SECTIONS } from '@/lib/data'
-import { ArrowUpRight, Mail, Github, Linkedin, FileText } from 'lucide-react'
+import { SOCIAL_LINKS, SECTIONS, PROFILE } from '@/lib/data'
+import { ArrowUpRight, Mail, Github, Linkedin, FileText, Twitter } from 'lucide-react'
 
 const ICON_MAP: Record<string, JSX.Element> = {
   github: <Github className="w-4 h-4" />,
   resume: <FileText className="w-4 h-4" />,
   linkedin: <Linkedin className="w-4 h-4" />,
   email: <Mail className="w-4 h-4" />,
+  x: <Twitter className="w-4 h-4" />,
 }
 
 export default function TopNav() {
@@ -49,10 +50,7 @@ export default function TopNav() {
           className="flex items-center gap-3 group"
         >
           <span className="font-mono text-sm tracking-[0.2em] uppercase text-emerald-400 group-hover:text-emerald-300 transition-colors">
-            reda.rs
-          </span>
-          <span className="hidden sm:inline text-xs text-slate-500 border-l border-slate-700 pl-3">
-            Solana infra engineer
+            {PROFILE.brand ?? 'reda.rs'}
           </span>
         </a>
 
@@ -78,7 +76,7 @@ export default function TopNav() {
 
         {/* Proof links - always visible */}
         <div className="flex items-center gap-2">
-          {SOCIAL_LINKS.map((link) => (
+          {SOCIAL_LINKS.filter((link) => ['github', 'resume', 'linkedin', 'x', 'email'].includes(link.id)).map((link) => (
             <a
               key={link.id}
               href={link.href}

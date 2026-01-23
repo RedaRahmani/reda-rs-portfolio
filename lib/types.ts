@@ -214,7 +214,7 @@ export type AppAction =
   | { type: 'TICK_SLOT' }
 
 export interface SocialLink {
-  id: 'github' | 'linkedin' | 'resume' | 'email'
+  id: 'github' | 'linkedin' | 'resume' | 'email' | 'x' | 'telegram' | 'superteam'
   label: string
   href: string
 }
@@ -227,8 +227,10 @@ export interface ProofStat {
 
 export interface ProjectEvidence {
   repo: string
-  pr: string
-  demo: string
+  article?: string
+  website?: string
+  docs?: string
+  demo?: string
   note?: string
 }
 
@@ -236,8 +238,9 @@ export interface FeaturedProject {
   id: string
   title: string
   problem: string
-  solution: string
+  whatBuilt: string
   tech: string[]
+  io: string
   impact: string
   evidence: ProjectEvidence
   badge?: string
@@ -258,7 +261,56 @@ export interface WritingEntry {
   url: string
   summary: string
   topic: string
-  readingTime: string
+  readingTime?: string
+  date?: string
+}
+
+export interface Profile {
+  name: string
+  brand?: string
+  headline: string
+  subHeadline?: string
+  mastery: string[]
+  location: string
+  tagline: string
+  availability: string
+  proofLinks?: { label: string; href: string }[]
+}
+
+export interface ExperienceEntry {
+  id: string
+  role: string
+  company: string
+  location: string
+  start: string
+  end: string
+  bullets: string[]
+}
+
+export interface EducationEntry {
+  id: string
+  program: string
+  org: string
+  start?: string
+  end?: string
+  detail?: string
+  proofUrl?: string
+  status?: 'completed' | 'ongoing'
+}
+
+export interface OpenSourceOrg {
+  name: string
+  order: number
+  viewAllUrl: string
+  description: string
+  highlights?: { label: string; url: string }[]
+}
+
+export interface CertificateEntry {
+  id: string
+  title: string
+  issuer: string
+  verifyUrl: string
 }
 
 export interface ClusterHudSnapshot {

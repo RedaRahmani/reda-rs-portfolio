@@ -10,6 +10,9 @@ import MemoryNav from '@/components/memory-nav'
 import ProjectsSection from '@/components/sections/projects-section'
 import OpenSourceSection from '@/components/sections/open-source-section'
 import WriteupsSection from '@/components/sections/writeups-section'
+import ExperienceSection from '@/components/sections/experience-section'
+import EducationSection from '@/components/sections/education-section'
+import CertificatesSection from '@/components/sections/certificates-section'
 import About from '@/components/sections/about-section'
 import Contact from '@/components/sections/contact-section'
 import ActivityFeed from '@/components/operator/activity-feed'
@@ -21,7 +24,7 @@ function HomeContent() {
   useKeyboardShortcuts()
 
   useEffect(() => {
-    const sections = ['projects', 'open-source', 'writing', 'about', 'contact']
+    const sections = ['projects', 'open-source', 'writing', 'experience', 'education', 'certificates', 'about', 'contact']
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight / 3
@@ -67,6 +70,9 @@ function HomeContent() {
           <ProjectsSection />
           <OpenSourceSection />
           <WriteupsSection />
+          <ExperienceSection />
+          <EducationSection />
+          <CertificatesSection />
           <About />
           <Contact />
         </div>

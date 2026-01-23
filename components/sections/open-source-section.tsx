@@ -1,6 +1,6 @@
 'use client'
 
-import { OPEN_SOURCE_PRS } from '@/lib/data'
+import { OPEN_SOURCE_ORGS } from '@/lib/data'
 import { Badge } from '@/components/ui/badge'
 import { ArrowUpRight, GitBranch } from 'lucide-react'
 import { useApp } from '@/lib/store'
@@ -9,12 +9,6 @@ import { SECTIONS } from '@/lib/data'
 export default function OpenSourceSection() {
   const { addActivity } = useApp()
   const meta = SECTIONS.find((s) => s.id === 'open-source')
-
-  const statusStyles = {
-    merged: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-    open: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-    draft: 'bg-slate-500/15 text-slate-300 border-slate-500/30',
-  } as const
 
   return (
     <section id="open-source" className="scroll-mt-20">
@@ -33,36 +27,29 @@ export default function OpenSourceSection() {
         </p>
       </div>
 
-      {/* PR cards */}
+      {/* Org cards */}
       <div className="space-y-3">
-        {OPEN_SOURCE_PRS.map((entry) => (
+        {OPEN_SOURCE_ORGS.sort((a, b) => a.order - b.order).map((org) => (
           <article
-            key={entry.id}
+            key={org.name}
             className="section-card p-4 md:p-5 flex flex-col md:flex-row md:items-center gap-4"
           >
-            {/* Left - Info */}
-            <div className="flex-1 space-y-2">
+            <div className="flex-1 space-y-1">
               <div className="flex items-center gap-3">
                 <GitBranch className="w-4 h-4 text-emerald-400 shrink-0" />
-                <h3 className="font-semibold text-white">{entry.project}</h3>
-                <Badge variant="outline" className={`text-xs ${statusStyles[entry.status]}`}>
-                  {entry.status}
+                <h3 className="font-semibold text-white">{org.name}</h3>
+                <Badge variant="outline" className="text-xs bg-emerald-500/10 border-emerald-500/30 text-emerald-200">
+                  PR proofs
                 </Badge>
               </div>
-              <p className="text-sm text-slate-300 ml-7">{entry.summary}</p>
+              <p className="text-sm text-slate-300 ml-7">{org.description}</p>
             </div>
 
-            {/* Right - Links */}
             <div className="flex gap-2 ml-7 md:ml-0">
               <OutboundLink 
-                href={entry.repo} 
-                label="Repo" 
-                onClick={() => addActivity('action', `Visited repo for ${entry.project}`)} 
-              />
-              <OutboundLink 
-                href={entry.pr} 
-                label="PR" 
-                onClick={() => addActivity('action', `Visited PR for ${entry.project}`)} 
+                href={org.viewAllUrl} 
+                label="View all PRs" 
+                onClick={() => addActivity('action', `Viewed PRs for ${org.name}`)} 
               />
             </div>
           </article>

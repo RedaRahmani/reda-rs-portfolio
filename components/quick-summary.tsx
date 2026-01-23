@@ -1,13 +1,7 @@
 'use client'
 
-import { PROOF_STATS, SOCIAL_LINKS } from '@/lib/data'
+import { PROOF_STATS, SOCIAL_LINKS, KEY_ACHIEVEMENTS } from '@/lib/data'
 import { ArrowUpRight, CheckCircle2, Terminal } from 'lucide-react'
-
-const KEY_ACHIEVEMENTS = [
-  '18 merged PRs in Solana ecosystem',
-  'Built 10M tx/day indexing pipelines',
-  '99.9% uptime across multi-region deployments',
-]
 
 const BOOT_LOG = [
   { ts: '00:01.234', msg: 'validator online, catching up...' },
@@ -21,6 +15,7 @@ export default function QuickSummary() {
   const githubHref = SOCIAL_LINKS.find((l) => l.id === 'github')?.href ?? '#'
   const resumeHref = SOCIAL_LINKS.find((l) => l.id === 'resume')?.href ?? '#'
   const emailHref = SOCIAL_LINKS.find((l) => l.id === 'email')?.href ?? '#'
+  const superteamHref = SOCIAL_LINKS.find((l) => l.id === 'superteam')?.href
 
   return (
     <div className="section-card p-5 md:p-6 my-8 w-full">
@@ -30,12 +25,12 @@ export default function QuickSummary() {
           <span className="segment-badge text-xs">QUICK SUMMARY</span>
           <span className="segment-label text-[10px]">operator.brief()</span>
         </div>
-        <span className="text-[10px] text-slate-500 font-mono">~10 sec read</span>
+          <span className="text-[10px] text-slate-500 font-mono">~10 sec read</span>
       </div>
 
-      <div className="grid md:grid-cols-[1fr_1px_1fr] 2xl:grid-cols-[1fr_1px_1fr_1px_minmax(200px,280px)] gap-6">
+      <div className="grid grid-cols-12 gap-6">
         {/* Left - Stats */}
-        <div className="space-y-4">
+        <div className="col-span-12 lg:col-span-5 space-y-4">
           <p className="text-sm text-slate-400 font-mono uppercase tracking-wide">At a glance</p>
           <div className="flex flex-wrap gap-2">
             {PROOF_STATS.map((stat) => (
@@ -60,11 +55,8 @@ export default function QuickSummary() {
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="hidden md:block bg-emerald-500/10" />
-
         {/* Middle - Proof links */}
-        <div className="space-y-4">
+        <div className="col-span-12 lg:col-span-4 space-y-4 lg:border-l lg:border-emerald-500/10 lg:pl-6">
           <p className="text-sm text-slate-400 font-mono uppercase tracking-wide">Verify</p>
           <div className="space-y-2">
             <ProofLinkCard
@@ -82,14 +74,18 @@ export default function QuickSummary() {
               title="Contact"
               description="Response within 24 hours"
             />
+            {superteamHref && (
+              <ProofLinkCard
+                href={superteamHref}
+                title="Superteam Earn"
+                description="Bounty proof profile"
+              />
+            )}
           </div>
         </div>
 
-        {/* Divider - 2xl only */}
-        <div className="hidden 2xl:block bg-emerald-500/10" />
-
-        {/* Right - Boot Log (2xl only) */}
-        <div className="hidden 2xl:block space-y-3">
+        {/* Right - Boot Log (lg+) */}
+        <div className="col-span-12 lg:col-span-3 hidden lg:block space-y-3 lg:border-l lg:border-emerald-500/10 lg:pl-6">
           <div className="flex items-center gap-2">
             <Terminal className="w-3.5 h-3.5 text-slate-500" />
             <p className="text-sm text-slate-500 font-mono uppercase tracking-wide">Boot Log</p>

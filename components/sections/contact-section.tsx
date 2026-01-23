@@ -1,14 +1,18 @@
 'use client'
 
 import { SOCIAL_LINKS } from '@/lib/data'
-import { Mail, ArrowUpRight, CalendarClock, FileText } from 'lucide-react'
+import { Mail, ArrowUpRight, FileText, Linkedin, Twitter, Send } from 'lucide-react'
 import { SECTIONS } from '@/lib/data'
 
 export default function ContactSection() {
   const meta = SECTIONS.find((s) => s.id === 'contact')
 
-  const email = SOCIAL_LINKS.find((l) => l.id === 'email')?.href ?? 'mailto:hello@reda.rs'
+  const email = SOCIAL_LINKS.find((l) => l.id === 'email')?.href ?? 'mailto:redarahmani1937@gmail.com'
   const resume = SOCIAL_LINKS.find((l) => l.id === 'resume')?.href ?? '/resume.pdf'
+  const linkedin = SOCIAL_LINKS.find((l) => l.id === 'linkedin')?.href ?? '#'
+  const x = SOCIAL_LINKS.find((l) => l.id === 'x')?.href ?? '#'
+  const telegram = SOCIAL_LINKS.find((l) => l.id === 'telegram')?.href ?? '#'
+  const superteam = SOCIAL_LINKS.find((l) => l.id === 'superteam')?.href ?? '#'
 
   return (
     <section id="contact" className="scroll-mt-20">
@@ -36,16 +40,34 @@ export default function ContactSection() {
           description="Direct line, response within 24h."
         />
         <ContactCard
+          href={linkedin}
+          title="LinkedIn"
+          icon={<Linkedin className="w-5 h-5" />}
+          description="Professional profile and references."
+        />
+        <ContactCard
+          href={x}
+          title="X"
+          icon={<Twitter className="w-5 h-5" />}
+          description="Live updates and Solana notes."
+        />
+        <ContactCard
+          href={telegram}
+          title="Telegram"
+          icon={<Send className="w-5 h-5" />}
+          description="Fast responses for collabs."
+        />
+        <ContactCard
           href={resume}
           title="Resume"
           icon={<FileText className="w-5 h-5" />}
           description="PDF with career highlights."
         />
         <ContactCard
-          href="https://cal.com/"
-          title="Schedule"
-          icon={<CalendarClock className="w-5 h-5" />}
-          description="Book a 20-min chat."
+          href={superteam}
+          title="Superteam Earn"
+          icon={<ArrowUpRight className="w-5 h-5" />}
+          description="Bounty proof profile."
         />
       </div>
     </section>
