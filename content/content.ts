@@ -116,13 +116,13 @@ export const openSourceOrgs: OpenSourceOrg[] = [
     name: 'DoubleZero',
     order: 1,
     viewAllUrl: 'https://github.com/pulls?q=is%3Apr+org%3Adoublezerofoundation+author%3ARedaRahmani',
-    description: 'PRs to DoubleZero Foundation repos (observability and infra tooling).',
+    description: 'PRs to DoubleZero Foundation repos.',
   },
   {
     name: 'MalbecLabs',
     order: 2,
     viewAllUrl: 'https://github.com/pulls?q=is%3Apr+author%3ARedaRahmani+org%3Amalbeclabs',
-    description: 'Contributions to MalbecLabs codebases.',
+    description: 'Contributions to MalbecLabs repos.',
   },
   {
     name: 'Triton One',
@@ -134,13 +134,13 @@ export const openSourceOrgs: OpenSourceOrg[] = [
     name: 'Blueshift',
     order: 4,
     viewAllUrl: 'https://github.com/pulls?q=is%3Apr+org%3Ablueshift-gg+author%3ARedaRahmani',
-    description: 'Blueshift Solana ecosystem contributions.',
+    description: '',
   },
   {
     name: 'Turbin3',
     order: 5,
     viewAllUrl: 'https://github.com/pulls?q=is%3Apr+org%3ATurbin3+author%3ARedaRahmani',
-    description: 'Turbin3 cohort-related Solana PRs.',
+    description: 'Turbin3 cohort-related PRs.',
   },
 ]
 
