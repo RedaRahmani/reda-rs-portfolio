@@ -104,7 +104,7 @@ export default function HeroSection() {
               SVM Engineer <span className="text-emerald-400">(Rust)</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-200">
-              Solana Smart Contract &amp; SVM Engineer (Rust) — building Anchor/Pinocchio programs and real-time DeFi monitoring pipelines close to validator/RPC systems.
+              Solana Smart Contract &amp; SVM Engineer (Rust), building Anchor/Pinocchio programs and real-time DeFi monitoring pipelines close to validator/RPC systems.
             </p>
             <p className="text-sm text-slate-400 max-w-lg">
               Strong Solana runtime + performance focus (CU, latency, reliability) with a security-first mindset and active open-source contributions.
