@@ -109,6 +109,9 @@ export default function HeroSection() {
             <p className="text-sm text-slate-400 max-w-lg">
               Strong Solana runtime + performance focus (CU, latency, reliability) with a security-first mindset and active open-source contributions.
             </p>
+            <p className="text-sm text-slate-400 max-w-lg">
+              Also comfortable in TypeScript/JavaScript, Python, and C/C++ for tooling, automation, and performance work.
+            </p>
           </div>
 
           <ul className="space-y-2.5">
