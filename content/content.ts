@@ -66,17 +66,18 @@ export const projects: FeaturedProject[] = [
   {
     id: 'rlock',
     title: 'RLock',
-    problem: 'Complex Solana DeFi flows fail and burn fees when shipped as separate transactions during congestion.',
-    whatBuilt: 'An intent-aware bundler that uses a DAG planner with MagicBlock Ephemeral Rollups and L1 fallback to execute bundled flows reliably.',
+    problem: 'When Solana is congested, multi-step DeFi flows (swap → route → repay, etc.) turn into a chain of fragile transactions. One failure breaks the whole flow and users end up retrying and paying fees again.',
+    whatBuilt: 'RLock lets you submit the flow as one intent. It plans a safe order, bundles what can run together, and executes it in a way that avoids hot-account conflicts as much as possible.',
     tech: ['Rust', 'Anchor', 'Pinocchio', 'Ephemeral Rollups', 'MagicBlock', 'Sealevel'],
     io: 'Intents → Planner → ER/L1 → Settlement',
-    impact: 'Open-source bundler with a deep-dive architecture article; built to cut retries for multi-step flows.',
+    impact: 'In the devnet demo, RLock shows 100% success with 0 retries/fallbacks, p50 245ms / p90 892ms latency, and >90% fee savings (with ~3–4% CU reduction in the current test).',
     evidence: {
       repo: 'https://github.com/RedaRahmani/RLock',
       article: 'https://medium.com/@redarahmani1937/rlock-revolutionizing-solana-transactions-with-ephemeral-rollups-and-smart-bundling-c878d3609f66',
+      website: 'https://www.rlock.me/',
     },
     badge: 'Bundling',
-    owned: 'Architecture, bundler logic, rollup integration, and the public deep-dive.',
+    owned: 'I owned the planner + bundling logic, execution routing/fallback handling, and the public write-up + demo that explains the design with real metrics.',
   },
   {
     id: 'solana-dex-mev-indexer',
