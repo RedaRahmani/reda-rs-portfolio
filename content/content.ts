@@ -116,7 +116,7 @@ export const openSourceOrgs: OpenSourceOrg[] = [
     name: 'DoubleZero',
     order: 1,
     viewAllUrl: 'https://github.com/pulls?q=is%3Apr+org%3Adoublezerofoundation+author%3ARedaRahmani',
-    description: 'PRs to DoubleZero Foundation repos.',
+    description: 'Contributions to DoubleZero Foundation repos.',
   },
   {
     name: 'MalbecLabs',
