@@ -22,7 +22,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useApp } from '@/lib/store'
-import { SOCIAL_LINKS, OPEN_SOURCE_ORGS, FEATURED_PROJECTS, WRITING, PROFILE, SKILLS } from '@/lib/data'
+import { SOCIAL_LINKS, OPEN_SOURCE_ORGS, WRITING, PROFILE, SKILLS } from '@/lib/data'
 
 const ClusterHUD = dynamic(() => import('@/components/operator/cluster-hud'), { ssr: false })
 const RpcHealthPanel = dynamic(() => import('@/components/operator/rpc-health-panel'), { ssr: false })
@@ -72,11 +72,6 @@ export default function HeroSection() {
       { label: 'Write-ups', value: WRITING.length },
     ],
     [githubHref]
-  )
-
-  const orgBadges = useMemo(
-    () => [...OPEN_SOURCE_ORGS].sort((a, b) => a.order - b.order),
-    []
   )
 
   const scrollToProjects = () => {
@@ -232,17 +227,6 @@ export default function HeroSection() {
                   </div>
                 )
               )}
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {orgBadges.map((org) => (
-                <span
-                  key={org.name}
-                  className="rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-200"
-                >
-                  {org.name}
-                </span>
-              ))}
             </div>
 
             <div className="grid grid-cols-2 gap-2">
