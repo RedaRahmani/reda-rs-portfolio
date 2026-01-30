@@ -298,7 +298,7 @@ export const education: EducationEntry[] = [
 ]
 
 export const proofStats: ProofStat[] = [
-  { label: 'Projects', value: projects.length.toString() },
+  { label: 'Projects', value: '3 highlights' },
   { label: 'Writing', value: writing.length.toString() },
   { label: 'Open Source Orgs', value: openSourceOrgs.length.toString() },
   { label: 'Location', value: profile.location },
