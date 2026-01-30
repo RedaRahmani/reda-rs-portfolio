@@ -29,7 +29,6 @@ export default function ProjectsSection() {
           Featured Projects
         </h2>
         <p className="text-slate-400 max-w-2xl">
-          Case-study cards tuned for recruiters: problem → what I built → tech → evidence → impact → ownership.
         </p>
       </div>
 
