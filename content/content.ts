@@ -285,12 +285,6 @@ export const education: EducationEntry[] = [
     status: 'completed',
   },
   {
-    id: 'blueshift',
-    program: 'Solana Ecosystem Cohort / Training',
-    org: 'Blueshift',
-    status: 'completed',
-  },
-  {
     id: 'rektoff',
     program: 'Solana Rust Security Bootcamp (Cohort No. 3)',
     org: 'Rektoff',
