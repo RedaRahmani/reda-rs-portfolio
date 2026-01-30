@@ -13,12 +13,12 @@ import type {
 export const profile: Profile = {
   name: 'Mohamed Reda RAHMANI',
   brand: 'reda.rs',
-  headline: 'Smart Contract Engineer + SVM Engineer (Rust)',
-  subHeadline: 'Validator-adjacent systems · Observability-first',
+  headline: 'SVM Engineer (Rust)',
+  subHeadline: 'On-chain programs · Protocol-adjacent infrastructure',
   mastery: ['Anchor', 'Pinocchio'],
   location: 'Morocco',
-  tagline: 'I build validator-adjacent pipelines, bundlers, and observability that keep Solana data teams ahead of cluster churn.',
-  availability: 'Open to Solana infra roles',
+  tagline: 'I build Solana systems that stay reliable under mainnet churn—secure programs and low-latency pipelines for DeFi monitoring and MEV signals.',
+  availability: 'Open to SVM Engineer roles',
   proofLinks: [
     { label: 'Superteam Earn profile', href: 'https://earn.superteam.fun/t/mohamed-reda-partial-81' },
   ],
@@ -36,15 +36,17 @@ export const socialLinks: SocialLink[] = [
 
 export const skills: string[] = [
   'Rust',
-  'Anchor',
-  'Pinocchio (zkSNARKs)',
   'Solana SVM',
-  'Geyser/Yellowstone',
+  'Solana Runtime (Agave)',
+  'Anchor',
+  'Pinocchio',
+  'DeFi: AMMs / Liquidity / Lending / Perps',
+  'MEV / Jito (Bundles)',
+  'Indexers',
+  'Yellowstone gRPC',
   'Kafka',
   'ClickHouse',
-  'gRPC',
-  'LangChain/LangGraph',
-  'RAG',
+  'RPC / Validator tooling',
 ]
 
 export const keyAchievements: string[] = [
@@ -55,9 +57,9 @@ export const keyAchievements: string[] = [
 ]
 
 export const aboutHighlights = [
-  { title: 'Rust-first systems', body: 'Validator-adjacent pipelines, bundlers, and SVM tooling built in Rust with guardrails for reorgs.' },
-  { title: 'Mastery: Anchor + Pinocchio', body: 'Anchor for on-chain programs; Pinocchio/zk for proof-driven rollups and compression where relevant.' },
-  { title: 'Operator empathy', body: 'Runbooks, observability, and safe deploy paths so teams can operate without hand-holding.' },
+  { title: 'Protocol-adjacent systems', body: 'RPC/validator-adjacent tooling, QUIC networking, and streaming ingestion (Yellowstone gRPC) with production-style reliability patterns.' },
+  { title: 'DeFi mechanics', body: 'Strong intuition for AMMs, liquidity flow, lending markets, and perps—useful for building indexers, monitoring, and risk signals.' },
+  { title: 'Security mindset', body: 'I design with common Solana risk classes in mind: account ownership/signer validation, CPI privilege boundaries, token-account assumptions, oracle/price integrity, precision/overflow, and MEV edge cases.' },
 ]
 
 export const projects: FeaturedProject[] = [
@@ -74,6 +76,7 @@ export const projects: FeaturedProject[] = [
       article: 'https://medium.com/@redarahmani1937/rlock-revolutionizing-solana-transactions-with-ephemeral-rollups-and-smart-bundling-c878d3609f66',
     },
     badge: 'Bundling',
+    owned: 'Architecture, bundler logic, rollup integration, and the public deep-dive.',
   },
   {
     id: 'solana-dex-mev-indexer',
@@ -87,6 +90,7 @@ export const projects: FeaturedProject[] = [
       repo: 'https://github.com/RedaRahmani/solana-dex-mev-indexer',
     },
     badge: 'Indexer',
+    owned: 'Ingestion client, decoding path, Kafka/ClickHouse schemas, and alerting hooks.',
   },
   {
     id: 'chainsensors',
@@ -100,6 +104,7 @@ export const projects: FeaturedProject[] = [
       repo: 'https://github.com/RedaRahmani/ChainSensors-V1',
     },
     badge: 'DePIN',
+    owned: 'Anchor program, Walrus/zk-compression integration, and the marketplace UX.',
   },
 ]
 
@@ -133,6 +138,39 @@ export const openSourceOrgs: OpenSourceOrg[] = [
     order: 5,
     viewAllUrl: 'https://github.com/pulls?q=is%3Apr+org%3ATurbin3+author%3ARedaRahmani',
     description: 'Turbin3 cohort-related Solana PRs.',
+  },
+]
+
+export const openSourceHighlights = [
+  {
+    id: 'doublezero-observability',
+    org: 'DoubleZero',
+    summary: 'PRs around validator observability and infra ergonomics.',
+    url: 'https://github.com/pulls?q=is%3Apr+author%3ARedaRahmani+org%3Adoublezerofoundation',
+  },
+  {
+    id: 'tritonone-rpc',
+    org: 'Triton One',
+    summary: 'RPCPool / Triton One contributions focused on RPC health and tooling.',
+    url: 'https://github.com/pulls?q=is%3Apr+author%3ARedaRahmani+org%3Arpcpool',
+  },
+  {
+    id: 'malbeclabs-tooling',
+    org: 'MalbecLabs',
+    summary: 'PRs across MalbecLabs repos; perf and reliability fixes.',
+    url: 'https://github.com/pulls?q=is%3Apr+author%3ARedaRahmani+org%3Amalbeclabs',
+  },
+  {
+    id: 'blueshift-ecosystem',
+    org: 'Blueshift',
+    summary: 'Ecosystem PRs and cohort contributions in Solana programs.',
+    url: 'https://github.com/pulls?q=is%3Apr+author%3ARedaRahmani+org%3Ablueshift-gg',
+  },
+  {
+    id: 'turbin3-cohort',
+    org: 'Turbin3',
+    summary: 'Cohort PRs and exercises demonstrating Solana best practices.',
+    url: 'https://github.com/pulls?q=is%3Apr+author%3ARedaRahmani+org%3ATurbin3',
   },
 ]
 

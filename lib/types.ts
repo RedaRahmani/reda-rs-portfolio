@@ -244,6 +244,7 @@ export interface FeaturedProject {
   impact: string
   evidence: ProjectEvidence
   badge?: string
+  owned?: string
 }
 
 export interface OpenSourcePR {
@@ -304,6 +305,13 @@ export interface OpenSourceOrg {
   viewAllUrl: string
   description: string
   highlights?: { label: string; url: string }[]
+}
+
+export interface OpenSourceHighlight {
+  id: string
+  org: string
+  summary: string
+  url: string
 }
 
 export interface CertificateEntry {

@@ -5,7 +5,7 @@ import { useApp } from '@/lib/store'
 import { SECTIONS } from '@/lib/data'
 
 export function useKeyboardShortcuts() {
-  const { state, dispatch, addKernelLog, addActivity } = useApp()
+  const { state, dispatch, addKernelLog } = useApp()
 
   const scrollToSection = useCallback((sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -125,7 +125,7 @@ export function KeyboardShortcutsHelp() {
     { key: 'j / k', desc: 'Navigate sections' },
     { key: 'g', desc: 'Go to address' },
     { key: 'Esc', desc: 'Close / clear' },
-    { key: 'Alt+1-5', desc: 'Jump to section' },
+    { key: 'Alt+1-6', desc: 'Jump to section' },
   ]
 
   return (

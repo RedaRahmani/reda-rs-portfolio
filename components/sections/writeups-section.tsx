@@ -19,15 +19,15 @@ export default function WriteupsSection() {
         </div>
         
         <h2 className="text-2xl md:text-3xl font-semibold text-white">
-          Technical Writing
+          Write-ups & Deep Dives
         </h2>
         <p className="text-slate-400 max-w-2xl">
-          Verified long-form writing on Solana performance, SVM, and transaction flows.
+          RLock architecture and Solana performance notes built for reviewers who want substance quickly.
         </p>
       </div>
 
       {/* Writing cards */}
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {WRITING.map((post) => (
           <article
             key={post.id}

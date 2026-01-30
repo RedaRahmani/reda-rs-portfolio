@@ -13,9 +13,9 @@ export default function ExperienceSection() {
           <span className="segment-badge">{meta?.addressLabel ?? '0x3500_RUNLOG'}</span>
           <span className="segment-label">.bss segment · run log</span>
         </div>
-        <h2 className="text-2xl md:text-3xl font-semibold text-white">Deployment History</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold text-white">Experience</h2>
         <p className="text-slate-400 max-w-3xl">
-          Recent roles and cohorts focused on shipping AI/ML backends and Solana-first systems.
+          Recent roles and cohorts focused on Solana systems and backend infrastructure.
         </p>
       </div>
 

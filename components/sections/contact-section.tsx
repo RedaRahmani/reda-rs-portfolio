@@ -1,7 +1,8 @@
 'use client'
 
+import type { ReactNode } from 'react'
 import { SOCIAL_LINKS } from '@/lib/data'
-import { Mail, ArrowUpRight, FileText, Linkedin, Twitter, Send } from 'lucide-react'
+import { Mail, ArrowUpRight, FileText, Linkedin, Twitter, Send, Github } from 'lucide-react'
 import { SECTIONS } from '@/lib/data'
 
 export default function ContactSection() {
@@ -13,6 +14,7 @@ export default function ContactSection() {
   const x = SOCIAL_LINKS.find((l) => l.id === 'x')?.href ?? '#'
   const telegram = SOCIAL_LINKS.find((l) => l.id === 'telegram')?.href ?? '#'
   const superteam = SOCIAL_LINKS.find((l) => l.id === 'superteam')?.href ?? '#'
+  const githubHref = SOCIAL_LINKS.find((l) => l.id === 'github')?.href ?? '#'
 
   return (
     <section id="contact" className="scroll-mt-20">
@@ -70,6 +72,19 @@ export default function ContactSection() {
           description="Bounty proof profile."
         />
       </div>
+
+      {/* Sticky mini-bar */}
+      <div className="fixed bottom-3 left-0 right-0 z-30 px-4">
+        <div className="max-w-4xl mx-auto rounded-2xl border border-emerald-500/20 bg-slate-950/90 backdrop-blur-lg shadow-lg shadow-black/30">
+          <div className="flex flex-wrap items-center gap-2 px-4 py-2 text-sm">
+            <span className="text-[11px] font-mono uppercase text-emerald-300">Contact</span>
+            <ContactChip href={email} label="Email" icon={<Mail className="w-3.5 h-3.5" />} />
+            <ContactChip href={linkedin} label="LinkedIn" icon={<Linkedin className="w-3.5 h-3.5" />} />
+            <ContactChip href={githubHref} label="GitHub" icon={<Github className="w-3.5 h-3.5" />} />
+            <ContactChip href={resume} label="Resume" icon={<FileText className="w-3.5 h-3.5" />} />
+          </div>
+        </div>
+      </div>
     </section>
   )
 }
@@ -83,7 +98,7 @@ function ContactCard({
   href: string
   title: string
   description: string
-  icon: React.ReactNode
+  icon: ReactNode
 }) {
   return (
     <a
@@ -102,6 +117,20 @@ function ContactCard({
         <ArrowUpRight className="w-4 h-4 text-slate-600 group-hover:text-emerald-400 transition-colors" />
       </div>
       <p className="text-sm text-slate-400">{description}</p>
+    </a>
+  )
+}
+
+function ContactChip({ href, label, icon }: { href: string; label: string; icon: ReactNode }) {
+  return (
+    <a
+      href={href}
+      target={href.startsWith('http') ? '_blank' : undefined}
+      rel="noreferrer"
+      className="inline-flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-900/60 px-3 py-1 text-xs font-medium text-slate-200 hover:border-emerald-500/40 hover:text-emerald-200 transition-colors"
+    >
+      {icon}
+      {label}
     </a>
   )
 }

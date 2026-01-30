@@ -3,6 +3,7 @@ import {
   skills,
   projects,
   openSourceOrgs,
+  openSourceHighlights,
   proofStats,
   socialLinks,
   writing,
@@ -25,6 +26,7 @@ export const SOCIAL_LINKS = socialLinks
 export const PROOF_STATS = proofStats
 export const FEATURED_PROJECTS = projects
 export const OPEN_SOURCE_ORGS = openSourceOrgs
+export const OPEN_SOURCE_HIGHLIGHTS = openSourceHighlights
 export const WRITING = writing
 export const PROFILE = profile
 export const SKILLS = skills
@@ -134,12 +136,10 @@ export const MEMORY_REGIONS: Record<string, MemoryRegion> = {
 }
 
 export const SECTIONS: SectionConfig[] = [
+  { id: 'hero', label: 'Overview', segment: '.rodata', memoryRegion: MEMORY_REGIONS.hero, addressLabel: '0x0000_BOOT' },
   { id: 'projects', label: 'Projects', segment: '.text', memoryRegion: MEMORY_REGIONS.projects, addressLabel: '0x1000_PROJECTS' },
   { id: 'open-source', label: 'Open Source', segment: '.data', memoryRegion: MEMORY_REGIONS['open-source'], addressLabel: '0x2000_OSS' },
   { id: 'writing', label: 'Writing', segment: '.stack', memoryRegion: MEMORY_REGIONS.writing, addressLabel: '0x3000_WRITING' },
-  { id: 'experience', label: 'Experience', segment: '.bss', memoryRegion: MEMORY_REGIONS.experience, addressLabel: '0x3500_RUNLOG' },
-  { id: 'education', label: 'Education', segment: '.data', memoryRegion: MEMORY_REGIONS.education, addressLabel: '0x3800_EDU' },
-  { id: 'certificates', label: 'Certificates', segment: '.rodata', memoryRegion: MEMORY_REGIONS.certificates, addressLabel: '0x3C00_CERTS' },
   { id: 'about', label: 'About', segment: '.rodata', memoryRegion: MEMORY_REGIONS.about, addressLabel: '0x4000_ABOUT' },
   { id: 'contact', label: 'Contact', segment: '.heap', memoryRegion: MEMORY_REGIONS.contact, addressLabel: '0x5000_CONTACT' },
 ]

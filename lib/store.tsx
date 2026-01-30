@@ -47,7 +47,7 @@ const initialTpuPipeline: TpuPipelineState = {
 }
 
 const initialState: AppState = {
-  activeSection: 'projects',
+  activeSection: 'hero',
   hoveredItem: null,
   selectedItem: null,
   inspectorOpen: false,

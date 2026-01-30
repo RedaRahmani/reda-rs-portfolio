@@ -17,6 +17,7 @@ import About from '@/components/sections/about-section'
 import Contact from '@/components/sections/contact-section'
 import ActivityFeed from '@/components/operator/activity-feed'
 import { Shell } from '@/components/layout/shell'
+import { SECTIONS } from '@/lib/data'
 
 function HomeContent() {
   const { state, dispatch, addKernelLog, addActivity } = useApp()
@@ -24,7 +25,7 @@ function HomeContent() {
   useKeyboardShortcuts()
 
   useEffect(() => {
-    const sections = ['projects', 'open-source', 'writing', 'experience', 'education', 'certificates', 'about', 'contact']
+    const sections = SECTIONS.map((s) => s.id)
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight / 3
@@ -49,7 +50,7 @@ function HomeContent() {
 
   useEffect(() => {
     addKernelLog('info', 'validator', 'Operator console initialized')
-    addKernelLog('info', 'mem', 'Memory regions mapped: 5 segments')
+    addKernelLog('info', 'mem', `Memory regions mapped: ${SECTIONS.length} segments`)
     addKernelLog('debug', 'syscall', 'Keyboard shortcuts registered')
     addActivity('mode', 'Loaded operator console')
   }, [addActivity, addKernelLog])

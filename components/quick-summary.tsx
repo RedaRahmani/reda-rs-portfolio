@@ -1,15 +1,7 @@
 'use client'
 
 import { PROOF_STATS, SOCIAL_LINKS, KEY_ACHIEVEMENTS } from '@/lib/data'
-import { ArrowUpRight, CheckCircle2, Terminal } from 'lucide-react'
-
-const BOOT_LOG = [
-  { ts: '00:01.234', msg: 'validator online, catching up...' },
-  { ts: '00:02.891', msg: 'slot 312847123 confirmed' },
-  { ts: '00:03.455', msg: 'geyser plugin initialized' },
-  { ts: '00:04.012', msg: 'kafka producer connected' },
-  { ts: '00:04.567', msg: 'ready for indexing' },
-]
+import { ArrowUpRight, CheckCircle2 } from 'lucide-react'
 
 export default function QuickSummary() {
   const githubHref = SOCIAL_LINKS.find((l) => l.id === 'github')?.href ?? '#'
@@ -23,15 +15,14 @@ export default function QuickSummary() {
       <div className="flex items-center justify-between mb-4">
         <div className="segment-header">
           <span className="segment-badge text-xs">QUICK SUMMARY</span>
-          <span className="segment-label text-[10px]">operator.brief()</span>
+          <span className="segment-label text-[10px]">skim.first()</span>
         </div>
-          <span className="text-[10px] text-slate-500 font-mono">~10 sec read</span>
+        <span className="text-[10px] text-slate-500 font-mono">~8 sec skim</span>
       </div>
 
       <div className="grid grid-cols-12 gap-6">
-        {/* Left - Stats */}
-        <div className="col-span-12 lg:col-span-5 space-y-4">
-          <p className="text-sm text-slate-400 font-mono uppercase tracking-wide">At a glance</p>
+        {/* Stats + achievements */}
+        <div className="col-span-12 lg:col-span-7 space-y-4">
           <div className="flex flex-wrap gap-2">
             {PROOF_STATS.map((stat) => (
               <div
@@ -44,8 +35,7 @@ export default function QuickSummary() {
             ))}
           </div>
           
-          {/* Key achievements */}
-          <div className="space-y-2 pt-2">
+          <div className="space-y-2">
             {KEY_ACHIEVEMENTS.map((achievement) => (
               <div key={achievement} className="flex items-start gap-2 text-sm text-slate-300">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
@@ -55,48 +45,32 @@ export default function QuickSummary() {
           </div>
         </div>
 
-        {/* Middle - Proof links */}
-        <div className="col-span-12 lg:col-span-4 space-y-4 lg:border-l lg:border-emerald-500/10 lg:pl-6">
+        {/* Proof links */}
+        <div className="col-span-12 lg:col-span-5 space-y-2 lg:border-l lg:border-emerald-500/10 lg:pl-6">
           <p className="text-sm text-slate-400 font-mono uppercase tracking-wide">Verify</p>
-          <div className="space-y-2">
+          <div className="grid sm:grid-cols-2 gap-2">
             <ProofLinkCard
               href={githubHref}
               title="GitHub"
-              description="All projects, PRs, and contributions"
+              description="Projects & PRs"
             />
             <ProofLinkCard
               href={resumeHref}
-              title="Resume PDF"
-              description="Career history and technical skills"
+              title="Resume"
+              description="PDF"
             />
             <ProofLinkCard
               href={emailHref}
               title="Contact"
-              description="Response within 24 hours"
+              description="Reply within 24h"
             />
             {superteamHref && (
               <ProofLinkCard
                 href={superteamHref}
                 title="Superteam Earn"
-                description="Bounty proof profile"
+                description="Bounty proofs"
               />
             )}
-          </div>
-        </div>
-
-        {/* Right - Boot Log (lg+) */}
-        <div className="col-span-12 lg:col-span-3 hidden lg:block space-y-3 lg:border-l lg:border-emerald-500/10 lg:pl-6">
-          <div className="flex items-center gap-2">
-            <Terminal className="w-3.5 h-3.5 text-slate-500" />
-            <p className="text-sm text-slate-500 font-mono uppercase tracking-wide">Boot Log</p>
-          </div>
-          <div className="space-y-1 font-mono text-[11px]">
-            {BOOT_LOG.map((line, idx) => (
-              <div key={idx} className="flex gap-2 text-slate-600">
-                <span className="text-slate-700 shrink-0">[{line.ts}]</span>
-                <span className="text-slate-500 truncate">{line.msg}</span>
-              </div>
-            ))}
           </div>
         </div>
       </div>

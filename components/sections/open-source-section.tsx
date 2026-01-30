@@ -20,16 +20,17 @@ export default function OpenSourceSection() {
         </div>
         
         <h2 className="text-2xl md:text-3xl font-semibold text-white">
-          Open Source Contributions
+          Open Source Proof
         </h2>
         <p className="text-slate-400 max-w-2xl">
-          Selected PRs that improved throughput or ergonomics. Links go to actual repos.
+          PR links you can verify. Focus: Solana infra, RPC ergonomics, validator observability, cohort work.
         </p>
+        <p className="text-xs text-slate-500">Stat line: org chips + highlighted PR searches. No invented merge counts.</p>
       </div>
 
       {/* Org cards */}
       <div className="space-y-3">
-        {OPEN_SOURCE_ORGS.sort((a, b) => a.order - b.order).map((org) => (
+        {[...OPEN_SOURCE_ORGS].sort((a, b) => a.order - b.order).map((org) => (
           <article
             key={org.name}
             className="section-card p-4 md:p-5 flex flex-col md:flex-row md:items-center gap-4"
@@ -38,8 +39,8 @@ export default function OpenSourceSection() {
               <div className="flex items-center gap-3">
                 <GitBranch className="w-4 h-4 text-emerald-400 shrink-0" />
                 <h3 className="font-semibold text-white">{org.name}</h3>
-                <Badge variant="outline" className="text-xs bg-emerald-500/10 border-emerald-500/30 text-emerald-200">
-                  PR proofs
+                <Badge variant="outline" className="text-[11px] bg-emerald-500/10 border-emerald-500/30 text-emerald-200">
+                  PR links
                 </Badge>
               </div>
               <p className="text-sm text-slate-300 ml-7">{org.description}</p>
