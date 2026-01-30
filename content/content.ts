@@ -82,16 +82,17 @@ export const projects: FeaturedProject[] = [
   {
     id: 'solana-dex-mev-indexer',
     title: 'Solana DEX MEV Indexer',
-    problem: 'MEV and DEX activity is hard to monitor without normalized, low-latency ingest.',
-    whatBuilt: 'Rust ingestion + decoding pipeline that streams Yellowstone/Geyser data into Kafka and ClickHouse for MEV/DEX signal extraction.',
+    problem: 'Solana DEX + MEV data moves fast. If you don’t have a reliable firehose and a clean event model, you can’t monitor activity, build alerts, or do analysis without constantly fighting latency, duplicates, and missing data.',
+    whatBuilt:
+      'A Rust-first indexing pipeline that turns raw Solana transactions into queryable datasets:\n- a streaming ingestor (RPC/Geyser source) → Kafka\n- ClickHouse landing (Kafka engine + materialized views)\n- decoding path designed to graduate from “raw txs” → “DEX swaps / MEV signals” (Raydium-first), with backfill and replay in mind.',
     tech: ['Rust', 'Yellowstone gRPC', 'Geyser', 'Kafka', 'ClickHouse', 'gRPC'],
-    io: 'RPC/Geyser → Stream → Kafka → ClickHouse → Query/Alerts',
-    impact: 'Validator-adjacent indexing ready for real-time dashboards and alerting.',
+    io: 'RPC/Geyser → Streamer → Kafka → ClickHouse → Queries/Alerts',
+    impact: 'Gives you a “production-ish” foundation: low-latency ingest, schemas you can evolve, and fast ClickHouse queries that power dashboards and alerts for DEX activity and early MEV heuristics.',
     evidence: {
       repo: 'https://github.com/RedaRahmani/solana-dex-mev-indexer',
     },
     badge: 'Indexer',
-    owned: 'Ingestion client, decoding path, Kafka/ClickHouse schemas, and alerting hooks.',
+    owned: 'End-to-end pipeline: ingestion client, event schema/versioning, ClickHouse tables + materialized views, Docker/infra wiring, and the decoding + query/alert path.',
   },
   {
     id: 'chainsensors',
