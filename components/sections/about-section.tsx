@@ -6,9 +6,9 @@ import { SECTIONS, PROFILE, SKILLS, ABOUT_HIGHLIGHTS } from '@/lib/data'
 const ENVIRONMENT = [
   { label: 'Laptop', value: 'Dell Inspiron 15 5000 (Ryzen 7, AMD Radeon Graphics)' },
   { label: 'Monitor', value: 'BenQ GW2490 — 23.8\" IPS, 100Hz' },
-  { label: 'Keyboard', value: 'g-LAB' },
-  { label: 'Mouse', value: 'Logitech' },
-  { label: 'Headphones', value: 'JVC' },
+  { label: 'Keyboard', value: 'g-LAB KEYZ CAESIUM TKL Black' },
+  { label: 'Mouse', value: 'Logitech MX Master 3S' },
+  { label: 'Headphones', value: 'JVC HA-S75N' },
   { label: 'Network', value: '100 Mbps fiber optic' },
 ]
 
