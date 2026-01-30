@@ -67,11 +67,11 @@ export default function HeroSection() {
 
   const proofCounts = useMemo(
     () => [
-      { label: 'Projects', value: FEATURED_PROJECTS.length },
+      { label: 'PROJECTS', value: '3 highlights', subtext: 'see the rest on GitHub', href: githubHref },
       { label: 'OSS orgs', value: OPEN_SOURCE_ORGS.length },
       { label: 'Write-ups', value: WRITING.length },
     ],
-    []
+    [githubHref]
   )
 
   const orgBadges = useMemo(
@@ -207,15 +207,31 @@ export default function HeroSection() {
             </div>
 
             <div className="grid grid-cols-3 gap-2">
-              {proofCounts.map((item) => (
-                <div
-                  key={item.label}
-                  className="rounded-lg border border-slate-800 bg-slate-900/50 px-3 py-2"
-                >
-                  <p className="text-[10px] text-slate-500 uppercase tracking-wide">{item.label}</p>
-                  <p className="text-lg font-semibold text-white">{item.value}</p>
-                </div>
-              ))}
+              {proofCounts.map((item) =>
+                item.href ? (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block rounded-lg border border-slate-800 bg-slate-900/50 px-3 py-2 hover:border-emerald-500/40 hover:text-emerald-100 transition-colors"
+                  >
+                    <p className="text-[10px] text-slate-500 uppercase tracking-wide">{item.label}</p>
+                    <p className="text-lg font-semibold text-white leading-tight">{item.value}</p>
+                    {item.subtext ? (
+                      <p className="text-[11px] text-slate-500 leading-tight mt-0.5">{item.subtext}</p>
+                    ) : null}
+                  </a>
+                ) : (
+                  <div
+                    key={item.label}
+                    className="rounded-lg border border-slate-800 bg-slate-900/50 px-3 py-2"
+                  >
+                    <p className="text-[10px] text-slate-500 uppercase tracking-wide">{item.label}</p>
+                    <p className="text-lg font-semibold text-white">{item.value}</p>
+                  </div>
+                )
+              )}
             </div>
 
             <div className="flex flex-wrap gap-2">
