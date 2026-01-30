@@ -15,7 +15,7 @@ export default function ExperienceSection() {
         </div>
         <h2 className="text-2xl md:text-3xl font-semibold text-white">Experience</h2>
         <p className="text-slate-400 max-w-3xl">
-          Recent roles and cohorts focused on Solana systems and backend infrastructure.
+          Recent roles.
         </p>
       </div>
 

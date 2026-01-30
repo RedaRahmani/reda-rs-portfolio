@@ -15,7 +15,7 @@ export default function EducationSection() {
         </div>
         <h2 className="text-2xl md:text-3xl font-semibold text-white">Education & Cohorts</h2>
         <p className="text-slate-400 max-w-3xl">
-          Formal studies plus targeted Solana cohorts and security training.
+          University studies, plus Solana cohorts and hands-on security training.
         </p>
       </div>
 
