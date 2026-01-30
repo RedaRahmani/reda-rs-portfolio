@@ -3,6 +3,15 @@
 import { Check, Cpu, Radar, Workflow } from 'lucide-react'
 import { SECTIONS, PROFILE, SKILLS, ABOUT_HIGHLIGHTS } from '@/lib/data'
 
+const ENVIRONMENT = [
+  { label: 'Laptop', value: 'Dell Inspiron 15 5000 (Ryzen 7, AMD Radeon Graphics)' },
+  { label: 'Monitor', value: 'BenQ GW2490 — 23.8\" IPS, 100Hz' },
+  { label: 'Keyboard', value: 'g-LAB' },
+  { label: 'Mouse', value: 'Logitech' },
+  { label: 'Headphones', value: 'JVC' },
+  { label: 'Network', value: '100 Mbps fiber optic' },
+]
+
 export default function AboutSection() {
   const meta = SECTIONS.find((s) => s.id === 'about')
 
@@ -50,6 +59,23 @@ export default function AboutSection() {
             {tag}
           </span>
         ))}
+      </div>
+
+      {/* Environment */}
+      <div className="mt-8 space-y-2">
+        <h3 className="text-xl font-semibold text-white">Environment</h3>
+        <p className="text-sm text-slate-500">My daily dev setup and connectivity.</p>
+        <div className="grid sm:grid-cols-2 gap-3">
+          {ENVIRONMENT.map((item) => (
+            <div
+              key={item.label}
+              className="rounded-lg border border-slate-800 bg-slate-900/50 px-3 py-2.5 flex flex-col gap-0.5"
+            >
+              <span className="text-[11px] uppercase tracking-wide text-slate-500">{item.label}</span>
+              <span className="text-sm text-slate-200 leading-snug">{item.value}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
