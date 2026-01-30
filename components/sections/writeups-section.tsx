@@ -22,7 +22,6 @@ export default function WriteupsSection() {
           Write-ups & Deep Dives
         </h2>
         <p className="text-slate-400 max-w-2xl">
-          RLock architecture and Solana performance notes built for reviewers who want substance quickly.
         </p>
       </div>
 

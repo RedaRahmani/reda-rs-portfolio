@@ -23,9 +23,9 @@ export default function OpenSourceSection() {
           Open Source Proof
         </h2>
         <p className="text-slate-400 max-w-2xl">
-          PR links you can verify. Focus: Solana infra, RPC ergonomics, validator observability, cohort work.
+          PR links you can verify.
         </p>
-        <p className="text-xs text-slate-500">Stat line: org chips + highlighted PR searches. No invented merge counts.</p>
+        <p className="text-xs text-slate-500"></p>
       </div>
 
       {/* Org cards */}

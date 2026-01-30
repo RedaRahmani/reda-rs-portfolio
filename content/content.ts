@@ -17,7 +17,7 @@ export const profile: Profile = {
   subHeadline: 'On-chain programs · Protocol-adjacent infrastructure',
   mastery: ['Anchor', 'Pinocchio'],
   location: 'Morocco',
-  tagline: 'I build Solana systems that stay reliable under mainnet churn—secure programs and low-latency pipelines for DeFi monitoring and MEV signals.',
+  tagline: 'I love working close to the core protocol, building secure Solana programs and low-latency pipelines that hold up under mainnet congestion.',
   availability: 'Open to SVM Engineer roles',
   proofLinks: [
     { label: 'Superteam Earn profile', href: 'https://earn.superteam.fun/t/mohamed-reda-partial-81' },
@@ -57,10 +57,11 @@ export const keyAchievements: string[] = [
 ]
 
 export const aboutHighlights = [
-  { title: 'Protocol-adjacent systems', body: 'RPC/validator-adjacent tooling, QUIC networking, and streaming ingestion (Yellowstone gRPC) with production-style reliability patterns.' },
-  { title: 'DeFi mechanics', body: 'Strong intuition for AMMs, liquidity flow, lending markets, and perps—useful for building indexers, monitoring, and risk signals.' },
-  { title: 'Security mindset', body: 'I design with common Solana risk classes in mind: account ownership/signer validation, CPI privilege boundaries, token-account assumptions, oracle/price integrity, precision/overflow, and MEV edge cases.' },
+  { title: 'Close to the protocol', body: 'Solana runtime + validator/RPC behavior.' },
+  { title: 'DeFi systems', body: 'AMMs, liquidity, lending, indexers, MEV.' },
+  { title: 'Security-first', body: 'Reviewer mindset: account checks, CPI safety, token/oracle assumptions, edge cases + tests.' },
 ]
+
 
 export const projects: FeaturedProject[] = [
   {
