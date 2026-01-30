@@ -104,13 +104,10 @@ export default function HeroSection() {
               SVM Engineer <span className="text-emerald-400">(Rust)</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-200">
-              On-chain programs and protocol-adjacent infrastructure on Solana
-            </p>
-            <p className="text-sm text-emerald-300 font-mono">
-              Anchor/Pinocchio · Indexing pipelines · MEV/Jito bundles
+              Solana Smart Contract &amp; SVM Engineer (Rust) — building Anchor/Pinocchio programs and real-time DeFi monitoring pipelines close to validator/RPC systems.
             </p>
             <p className="text-sm text-slate-400 max-w-lg">
-              I build Solana systems that stay reliable under mainnet churn—secure programs and low-latency pipelines for DeFi monitoring and MEV signals.
+              Strong Solana runtime + performance focus (CU, latency, reliability) with a security-first mindset and active open-source contributions.
             </p>
           </div>
 
