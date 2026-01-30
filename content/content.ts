@@ -68,7 +68,7 @@ export const projects: FeaturedProject[] = [
     title: 'RLock',
     problem: 'When Solana is congested, multi-step DeFi flows (swap → route → repay, etc.) turn into a chain of fragile transactions. One failure breaks the whole flow and users end up retrying and paying fees again.',
     whatBuilt: 'RLock lets you submit the flow as one intent. It plans a safe order, bundles what can run together, and executes it in a way that avoids hot-account conflicts as much as possible.',
-    tech: ['Rust', 'Anchor', 'Pinocchio', 'Ephemeral Rollups', 'MagicBlock', 'Sealevel'],
+    tech: ['Rust', 'DAG', 'Ephemeral Rollups', 'MagicBlock', 'Sealevel'],
     io: 'Intents → Planner → ER/L1 → Settlement',
     impact: 'In the devnet demo, RLock shows 100% success with 0 retries/fallbacks, p50 245ms / p90 892ms latency, and >90% fee savings (with ~3–4% CU reduction in the current test).',
     evidence: {
