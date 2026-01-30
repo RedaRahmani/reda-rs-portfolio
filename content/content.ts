@@ -97,16 +97,17 @@ export const projects: FeaturedProject[] = [
   {
     id: 'chainsensors',
     title: 'ChainSensors (DePIN)',
-    problem: 'IoT sensor owners lack a secure marketplace to monetize data with on-chain proofs and low fees.',
-    whatBuilt: 'Solana-based IoT data marketplace using Anchor contracts, zk-compression, Walrus storage, and web stack for sensor onboarding and listings.',
+    problem: 'Small sensor owners can collect valuable data, but they don’t have an easy way to sell it safely: storage is centralized, proofs are weak, and sharing data often means giving up control.',
+    whatBuilt:
+      'ChainSensors is a Solana-based IoT data marketplace: devices onboard, stream datasets, and publish listings. Buyers purchase access, and the platform handles on-chain ownership + off-chain storage so sellers can monetize without running heavy infra.\nPrivacy (Arcium): data access can be shared with buyers using encrypted key exchange, so the raw dataset isn’t exposed publicly.',
     tech: ['Rust', 'Anchor', 'zk-Compression', 'Walrus', 'Next.js', 'NestJS'],
-    io: 'Devices → Walrus → Anchor program → Marketplace UI',
-    impact: 'Won 4th prize in Helius + Light Protocol bounty; accepted into Arcium Fellowship.',
+    io: 'Devices → Upload → Storage → Listing → Purchase',
+    impact: 'Shipped an end-to-end DePIN marketplace prototype and earned external validation: 4th prize in the Helius + Light Protocol bounty and acceptance into the Arcium Fellowship.',
     evidence: {
       repo: 'https://github.com/RedaRahmani/ChainSensors-V1',
     },
     badge: 'DePIN',
-    owned: 'Anchor program, Walrus/zk-compression integration, and the marketplace UX.',
+    owned: 'Anchor program + marketplace flows, zk-compression/Walrus integration, and the product UX (device onboarding → listing → purchase).',
   },
 ]
 
